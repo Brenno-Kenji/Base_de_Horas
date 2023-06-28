@@ -1,115 +1,118 @@
 import tkinter as tk
 from tkcalendar import Calendar, DateEntry
-import sqlite3
-import pandas as pd
 
-# Functions
+#--------------------------------------------
+# Definindo cores
+#--------------------------------------------
 
-def new_data_base_hours():
+co0 = '#f0f3f5' # Preto
+co1 = '#feffff' # Branco
+co2 = '#4fa882' # Verde
+co3 = '#38576b' # Valor
+co4 = '#403d3d' # Letra
+co5 = '#e06636' # - Profit
+co6 = '#038cfc' # Azul
+co7 = '#ef5350' # Vermelho
+co8 = '#263238' # + Verde
+co9 = '#e9edf5' # Sky blue
 
-    conection = sqlite3.connect('Dados/Base_de_Horas.db')
-
-    c = conection.cursor()
-
-    c.execute('''CREATE TABLE nome_da_empresa(
-        Dia text,
-        Hora_Entrada text,
-        Hora_Fim text
-        )
-    ''')
-
-    conection.commit()
-
-    conection.close()
-
-def sign_hour():
-
-    conection = sqlite3.connect('Dados/Base_de_Horas.db')
-
-    c = conection.cursor()
-
-    c.execute('INSERT INTO nome_da_empresa VALUES (:Dia, :Hora_Entrada, :Hora_Fim)',
-            {
-                'Dia' : entry_dia.get(),
-                'Hora_Entrada' : entry_entrada.get(),
-                'Hora_Fim' : entry_saida.get()
-            }
-            ) 
-        
-    conection.commit() 
-
-    conection.close()    
-
-    entry_dia.delete(0, 'end') 
-    entry_entrada.delete(0, 'end') 
-    entry_saida.delete(0, 'end') 
-
-def export_hours():
-
-    conection = sqlite3.connect('Dados/Base_de_Horas.db')
-
-    c = conection.cursor()
-
-    c.execute(f'SELECT * FROM nome_da_empresa')
-
-    horas_registradas = c.fetchall() 
-    horas_registradas = pd.DataFrame(horas_registradas, columns = ['Dia', 'Hora_Entrada', 'Hora_Fim'])
-
-    horas_registradas.to_excel('Dados/Base_Horas.xlsx')
-
-    conection.commit() 
-
-    conection.close() 
-
-def insert_date():
-
-    date_calendar = label_calendario.get_date()
-    entry_dia.insert('end', date_calendar)
-
-# Criando Tela de Registro: 
-
-#-----------------------------------------------------
-# Chamando a função abaixo, criamo uma base de dados:
-# new_data_base_hours()
-#-----------------------------------------------------
+#--------------------------------------------
+# Criando janela: 
+#--------------------------------------------
 
 windows = tk.Tk()
-windows.title('Ferramenta de base de horas pessoal')
+windows.title('Ferramente de base de horas - Criada por Brenno Kenji (versão: 0.2)')
+windows.geometry('1043x453')
+windows.configure(background = co9)
+windows.resizable(width = False, height = False)
 
-#Labels:
+#--------------------------------------------
+# Dividindo janela: 
+#--------------------------------------------
 
-label_calendario = Calendar(windows, fg = 'gray75', bg = 'blue', font = ('Times', '9', 'bold'), locale = 'pt_br')
-label_calendario.grid(row = 0, column = 0, padx = 20, pady = 20)
+left_top = tk.Frame(windows, width = 310, height = 50, background = co2, relief = 'flat')
+left_top.grid(row = 0, column = 0)
 
-label_dia = tk.Label(windows, text = 'Dia:')
-label_dia.grid(row = 1, column = 0, padx = 10, pady = 10)
+left_down = tk.Frame(windows, width = 310, height = 403, background = co1, relief = 'flat')
+left_down.grid(row = 1, column = 0, sticky = tk.NSEW, padx = 0, pady = 1)
 
-label_entrada = tk.Label(windows, text = 'Hora de Entrada')
-label_entrada.grid(row = 2, column = 0, padx = 10, pady = 10)
+right = tk.Frame(windows, width = 588, height = 403, background = co1, relief = 'flat')
+right.grid(row = 0, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
 
-label_saida = tk.Label(windows, text = 'Hora de Saida')
-label_saida.grid(row = 3, column = 0, padx = 10, pady = 10)
+#--------------------------------------------
+# Criando labels e entrys: 
+#--------------------------------------------
 
-#Entry:
+#--------------------------------------------
+# 1 - Criando titulo: 
+#--------------------------------------------
 
-entry_dia = tk.Entry(windows, width = 30)
-entry_dia.grid(row = 1, column = 1, padx = 10, pady = 10)
+app_name = tk.Label(left_top, text = 'Base de Horas - Pessoal', anchor = tk.NW, font = ('Ivy 13 bold'), background = co2, fg = co1, relief = 'flat')
+app_name.place(x = 10, y = 20)
 
-entry_entrada = tk.Entry(windows, width = 30)
-entry_entrada.grid(row = 2, column = 1, padx = 10, pady = 10)
+#--------------------------------------------
+# 1 - Criando campo "Data":
+#--------------------------------------------
 
-entry_saida = tk.Entry(windows, width = 30)
-entry_saida.grid(row = 3, column = 1, padx = 10, pady = 10)
+l_date = tk.Label(left_down, text = 'Data do expediente: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+l_date.place(x = 10, y = 40)
+e_date = DateEntry(left_down, width = 12, background = 'darkblue', foreground = 'white', borderwidth = 2)
+e_date.place(x = 160, y = 40)
+
+#--------------------------------------------
+# 2 - Criando campo "Horário de entrada":
+#--------------------------------------------
+
+l_entry_time = tk.Label(left_down, text = 'Horário de entrada: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+l_entry_time.place(x = 10, y = 100)
+e_entry_time = tk.Entry(left_down, width = 15, justify = 'left', relief = 'solid')
+e_entry_time.place(x = 160, y = 100)
+
+#--------------------------------------------
+# 3 - Criando campo "Horário de saida":
+#--------------------------------------------
+
+l_exit_time = tk.Label(left_down, text = 'Horário de saida: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+l_exit_time.place(x = 10, y = 160)
+e_exit_time = tk.Entry(left_down, width = 15, justify = 'left', relief = 'solid')
+e_exit_time.place(x = 160, y = 160)
+
+#--------------------------------------------
+# 4 - Criando campo "Observações":
+#--------------------------------------------
+
+l_observation = tk.Label(left_down, text = 'Observações: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+l_observation.place(x = 10, y = 220)
+e_observation = tk.Entry(left_down, width = 35, justify = 'left', relief = 'solid')
+e_observation.place(x = 15, y = 250)
     
-#Criando os botoes:
+#--------------------------------------------
+# Criando botoes: 
+#--------------------------------------------
 
-button_cadastro = tk.Button(windows, text = 'Cadastrar Horário', command = sign_hour)
-button_cadastro.grid(row = 4, column = 1, padx = 10, pady = 10, columnspan = 2, ipadx = 50)
+#--------------------------------------------
+# 1 - Criando botão "Inserir":
+#--------------------------------------------
 
-button_export = tk.Button(windows, text = 'Exportar Base de Horas para Excel', command = export_hours)
-button_export.grid(row = 5, column = 1, padx = 10, pady = 10, columnspan = 2, ipadx = 50)
+b_input = tk.Button(left_down, text = 'Inserir', width = 7, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
+b_input.place(x = 15, y = 310)
 
-button_date = tk.Button(windows, text = 'Inserir Data', command = insert_date)
-button_date.grid(row = 0, column = 1, padx = 10, pady = 10, columnspan = 2, ipadx = 50)
+#--------------------------------------------
+# 2 - Criando botão "Atualizar":
+#--------------------------------------------
+
+b_update = tk.Button(left_down, text = 'Atualizar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
+b_update.place(x = 115, y = 310)
+
+#--------------------------------------------
+# 3 - Criando botão "Deletar":
+#--------------------------------------------
+
+b_delete = tk.Button(left_down, text = 'Deletar', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+b_delete.place(x = 215, y = 310)
+
+#--------------------------------------------
+# Mantendo o sistema em loop: 
+#--------------------------------------------
 
 windows.mainloop()
