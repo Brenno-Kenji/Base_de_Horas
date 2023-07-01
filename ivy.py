@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkcalendar import Calendar, DateEntry
 
 #--------------------------------------------
@@ -22,7 +23,7 @@ co9 = '#e9edf5' # Sky blue
 
 windows = tk.Tk()
 windows.title('Ferramente de base de horas - Criada por Brenno Kenji (versão: 0.2)')
-windows.geometry('1043x453')
+windows.geometry('898x453')
 windows.configure(background = co9)
 windows.resizable(width = False, height = False)
 
@@ -110,6 +111,58 @@ b_update.place(x = 115, y = 310)
 
 b_delete = tk.Button(left_down, text = 'Deletar', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
 b_delete.place(x = 215, y = 310)
+
+#--------------------------------------------
+# Configurando tabela: 
+#--------------------------------------------
+
+#--------------------------------------------
+# 1 - Criando titulos da tabela:
+#--------------------------------------------
+
+coluna_header = ['ID', 'Data', 'Horário de entrada', 'Horário de saida', 'Observações']
+
+#--------------------------------------------
+# 2 - Criando dados:
+#--------------------------------------------
+
+data = []
+
+#--------------------------------------------
+# 3 - Criando tabela:
+#--------------------------------------------
+
+table = ttk.Treeview(right, selectmode = "extended", columns = coluna_header, show = "headings")
+bar_v = ttk.Scrollbar(right, orient = "vertical", command = table.yview)
+bar_h = ttk.Scrollbar( right, orient = "horizontal", command = table.xview)
+
+#--------------------------------------------
+# 4 - Visualizando tabela:
+#--------------------------------------------
+
+table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
+table.grid(column = 0, row = 0, sticky = 'nsew')
+bar_v.grid(column = 1, row = 0, sticky = 'ns')
+bar_h.grid(column = 0, row = 1, sticky = 'ew')
+
+right.grid_rowconfigure(0, weight = 12)
+
+#--------------------------------------------
+# 5 - Configurando alinhamento e tamanho:
+#--------------------------------------------
+
+alignment = ["nw", "nw", "nw", "nw", "nw", "center", "center"]
+size = [30, 170, 140, 100, 120, 50, 100]
+n = 0
+
+for col in coluna_header:
+    table.heading(col, text = col.title(), anchor = tk.CENTER)
+    table.column(col, width = size[n], anchor = alignment[n])
+    
+    n += 1
+
+for item in data:
+    table.insert('', 'end', values = item)
 
 #--------------------------------------------
 # Mantendo o sistema em loop: 
