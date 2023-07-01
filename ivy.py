@@ -1,6 +1,98 @@
+#--------------------------------------------
+# Importar bibliotecas
+#--------------------------------------------
+
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox 
 from tkcalendar import Calendar, DateEntry
+import crud
+
+#--------------------------------------------
+# Funções 
+#--------------------------------------------
+
+#--------------------------------------------
+# 1 - Cria a visualização da tabela 
+#--------------------------------------------
+
+def show_table():
+
+    #--------------------------------------------
+    # 1 - Criando titulos da tabela:
+    #--------------------------------------------
+
+    coluna_header = ['ID', 'Data', 'Horário de entrada', 'Horário de saida', 'Observações']
+
+    #--------------------------------------------
+    # 2 - Criando dados:
+    #--------------------------------------------
+
+    data = crud.access_info()
+
+    #--------------------------------------------
+    # 3 - Criando tabela:
+    #--------------------------------------------
+
+    table = ttk.Treeview(right, selectmode = "extended", columns = coluna_header, show = "headings")
+    bar_v = ttk.Scrollbar(right, orient = "vertical", command = table.yview)
+    bar_h = ttk.Scrollbar( right, orient = "horizontal", command = table.xview)
+
+    #--------------------------------------------
+    # 4 - Visualizando tabela:
+    #--------------------------------------------
+
+    table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
+    table.grid(column = 0, row = 0, sticky = 'nsew')
+    bar_v.grid(column = 1, row = 0, sticky = 'ns')
+    bar_h.grid(column = 0, row = 1, sticky = 'ew')
+
+    right.grid_rowconfigure(0, weight = 12)
+
+    #--------------------------------------------
+    # 5 - Configurando alinhamento e tamanho:
+    #--------------------------------------------
+
+    alignment = ["nw", "nw", "nw", "nw", "nw", "center", "center"]
+    size = [30, 170, 140, 100, 120, 50, 100]
+    n = 0
+
+    for col in coluna_header:
+        table.heading(col, text = col.title(), anchor = tk.CENTER)
+        table.column(col, width = size[n], anchor = alignment[n])
+        
+        n += 1
+
+    for item in data:
+        table.insert('', 'end', values = item)
+
+#-------------------------------------------------
+# 2 - Insere os dados no banco de dados e tabela 
+#-------------------------------------------------
+
+def insert():
+    date = e_date.get()
+    entry_time = e_entry_time.get()
+    exit_time = e_exit_time.get()
+    observation = e_observation.get()
+
+    array = [date, entry_time, exit_time, observation]
+
+    if date == '' or entry_time == '' or exit_time == '':
+        messagebox.showerror('Erro', 'A data e os horários são campos obrigatórios')
+    else:
+       crud.insert_inf(array)
+       messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso!')
+
+       e_date.delete(0, 'end')
+       e_entry_time.delete(0, 'end')
+       e_exit_time.delete(0, 'end')
+       e_observation.delete(0, 'end')
+    
+    for widget in right.winfo_children():
+        widget.destroy()
+
+    show_table()
 
 #--------------------------------------------
 # Definindo cores
@@ -95,7 +187,7 @@ e_observation.place(x = 15, y = 250)
 # 1 - Criando botão "Inserir":
 #--------------------------------------------
 
-b_input = tk.Button(left_down, text = 'Inserir', width = 7, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
+b_input = tk.Button(left_down, command = insert, text = 'Inserir', width = 7, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
 b_input.place(x = 15, y = 310)
 
 #--------------------------------------------
@@ -113,56 +205,10 @@ b_delete = tk.Button(left_down, text = 'Deletar', width = 7, font = ('Ivy 8 bold
 b_delete.place(x = 215, y = 310)
 
 #--------------------------------------------
-# Configurando tabela: 
+# Visualizando tabela: 
 #--------------------------------------------
 
-#--------------------------------------------
-# 1 - Criando titulos da tabela:
-#--------------------------------------------
-
-coluna_header = ['ID', 'Data', 'Horário de entrada', 'Horário de saida', 'Observações']
-
-#--------------------------------------------
-# 2 - Criando dados:
-#--------------------------------------------
-
-data = []
-
-#--------------------------------------------
-# 3 - Criando tabela:
-#--------------------------------------------
-
-table = ttk.Treeview(right, selectmode = "extended", columns = coluna_header, show = "headings")
-bar_v = ttk.Scrollbar(right, orient = "vertical", command = table.yview)
-bar_h = ttk.Scrollbar( right, orient = "horizontal", command = table.xview)
-
-#--------------------------------------------
-# 4 - Visualizando tabela:
-#--------------------------------------------
-
-table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
-table.grid(column = 0, row = 0, sticky = 'nsew')
-bar_v.grid(column = 1, row = 0, sticky = 'ns')
-bar_h.grid(column = 0, row = 1, sticky = 'ew')
-
-right.grid_rowconfigure(0, weight = 12)
-
-#--------------------------------------------
-# 5 - Configurando alinhamento e tamanho:
-#--------------------------------------------
-
-alignment = ["nw", "nw", "nw", "nw", "nw", "center", "center"]
-size = [30, 170, 140, 100, 120, 50, 100]
-n = 0
-
-for col in coluna_header:
-    table.heading(col, text = col.title(), anchor = tk.CENTER)
-    table.column(col, width = size[n], anchor = alignment[n])
-    
-    n += 1
-
-for item in data:
-    table.insert('', 'end', values = item)
+show_table()
 
 #--------------------------------------------
 # Mantendo o sistema em loop: 
