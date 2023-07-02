@@ -11,10 +11,10 @@ import sqlite3
 con = sqlite3.connect('Dados/Base_de_Horas.db')
 
 #--------------------------------------------
-# Inserindo informações (C)
+# Inserindo dados (C)
 #--------------------------------------------
 
-def insert_inf(i):
+def insert_info(i):
     with con:
         cur = con.cursor()
         query = '''INSERT INTO horas_trabalho (
@@ -29,11 +29,10 @@ def insert_inf(i):
         cur.execute(query, i)
 
 #--------------------------------------------
-# Acessar informações (R)
+# Acessar dados (R)
 #--------------------------------------------
 
 def access_info():
-
     array = []
 
     with con:
@@ -46,3 +45,26 @@ def access_info():
             array.append(i)
 
         return array
+
+#--------------------------------------------
+# Atualizando dados (U)
+#--------------------------------------------
+
+def update_info(i):
+    with con:
+        cur = con.cursor()
+        query = '''UPDATE horas_trabalho SET
+        data = ?,
+        horario_entrada = ?,
+        horario_saida = ?,
+        informacoes_extras = ? 
+        WHERE id = ?'''
+
+        cur.execute(query, i)
+        
+def delete_info(i):
+    with con:
+        cur = con.cursor()
+        query = '''DELETE FROM horas_trabalho WHERE id = ?'''
+
+        cur.execute(query, i)

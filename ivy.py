@@ -9,6 +9,12 @@ from tkcalendar import Calendar, DateEntry
 import crud
 
 #--------------------------------------------
+# Variáveis globais 
+#--------------------------------------------
+
+global table #Retorna o valor de table como uma variável global
+
+#--------------------------------------------
 # Funções 
 #--------------------------------------------
 
@@ -18,20 +24,22 @@ import crud
 
 def show_table():
 
+    global table # Faz a variável local se tornar local
+
     #--------------------------------------------
-    # 1 - Criando titulos da tabela:
+    # 1.1 - Criando titulos da tabela:
     #--------------------------------------------
 
     coluna_header = ['ID', 'Data', 'Horário de entrada', 'Horário de saida', 'Observações']
 
     #--------------------------------------------
-    # 2 - Criando dados:
+    # 1.2 - Criando dados:
     #--------------------------------------------
 
     data = crud.access_info()
 
     #--------------------------------------------
-    # 3 - Criando tabela:
+    # 1.3 - Criando tabela:
     #--------------------------------------------
 
     table = ttk.Treeview(right, selectmode = "extended", columns = coluna_header, show = "headings")
@@ -39,7 +47,7 @@ def show_table():
     bar_h = ttk.Scrollbar( right, orient = "horizontal", command = table.xview)
 
     #--------------------------------------------
-    # 4 - Visualizando tabela:
+    # 1.4 - Visualizando tabela:
     #--------------------------------------------
 
     table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
@@ -50,7 +58,7 @@ def show_table():
     right.grid_rowconfigure(0, weight = 12)
 
     #--------------------------------------------
-    # 5 - Configurando alinhamento e tamanho:
+    # 1.5 - Configurando alinhamento e tamanho:
     #--------------------------------------------
 
     alignment = ["nw", "nw", "nw", "nw", "nw", "center", "center"]
@@ -71,28 +79,186 @@ def show_table():
 #-------------------------------------------------
 
 def insert():
+
+    #-------------------------------------------------
+    # 2.1 - Pega os valores dos campos
+    #-------------------------------------------------
+
     date = e_date.get()
     entry_time = e_entry_time.get()
     exit_time = e_exit_time.get()
     observation = e_observation.get()
 
+    #-----------------------------------------------------
+    # 2.2 - Armazena os valores dos campos em uma lista
+    #-----------------------------------------------------
+
     array = [date, entry_time, exit_time, observation]
+
+    #-----------------------------------------------------
+    # 2.3 - Realiza as condições de um campo vazio
+    #-----------------------------------------------------
 
     if date == '' or entry_time == '' or exit_time == '':
         messagebox.showerror('Erro', 'A data e os horários são campos obrigatórios')
     else:
-       crud.insert_inf(array)
-       messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso!')
+        crud.insert_info(array)
+        messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso!')
 
-       e_date.delete(0, 'end')
-       e_entry_time.delete(0, 'end')
-       e_exit_time.delete(0, 'end')
-       e_observation.delete(0, 'end')
+        #-----------------------------------------------------
+        # 2.4 - Exclui os valores no campo
+        #-----------------------------------------------------
+
+        e_date.delete(0, 'end')
+        e_entry_time.delete(0, 'end')
+        e_exit_time.delete(0, 'end')
+        e_observation.delete(0, 'end')
     
+    #-------------------------------------------------------------
+    # 2.5 - Exclui a antiga tabela e visualizamos ela atualizada
+    #-------------------------------------------------------------
+
     for widget in right.winfo_children():
         widget.destroy()
 
     show_table()
+
+#-------------------------------------------------
+# 3 - Atualizar os dados no banco de dados e tabela 
+#-------------------------------------------------
+
+def update():
+    try:
+        #-------------------------------------------------
+        # 3.1 - Retorna os valores da tabela como lista
+        #------------------------------------------------- 
+
+        table_data = table.focus()
+        table_dictionary = table.item(table_data)
+        table_list = table_dictionary['values']
+
+        #-------------------------------------------------
+        # 3.2 - Retorna o ID
+        #------------------------------------------------- 
+
+        value_id = table_list[0]
+        
+        #-------------------------------------------------
+        # 3.3 - Deleta os valores dos campos (caso haja)
+        #------------------------------------------------- 
+
+        e_date.delete(0, 'end')
+        e_entry_time.delete(0, 'end')
+        e_exit_time.delete(0, 'end')
+        e_observation.delete(0, 'end')
+
+        #-------------------------------------------------
+        # 3.4 - Insere os valores da tabela nos campo
+        #------------------------------------------------- 
+
+        e_date.insert(0, table_list[1])
+        e_entry_time.insert(0, table_list[2])
+        e_exit_time.insert(0, table_list[3])
+        e_observation.insert(0, table_list[4])
+
+        #-------------------------------------------------
+        # 3.5 - Atualiza os dados
+        #------------------------------------------------- 
+
+        def update_data():
+
+            #-------------------------------------------------
+            # 3.5.1 - Pega os valores dos campos
+            #-------------------------------------------------
+
+            date = e_date.get()
+            entry_time = e_entry_time.get()
+            exit_time = e_exit_time.get()
+            observation = e_observation.get()
+
+            #-----------------------------------------------------
+            # 3.5.2 - Armazena os valores dos campos em uma lista
+            #-----------------------------------------------------
+
+            array = [date, entry_time, exit_time, observation, value_id]
+
+            #-----------------------------------------------------
+            # 3.5.3 - Realiza as condições de um campo vazio
+            #-----------------------------------------------------
+
+            if date == '' or entry_time == '' or exit_time == '':
+                messagebox.showerror('Erro', 'A data e os horários são campos obrigatórios')
+            else:
+                crud.update_info(array)
+                messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso!')
+
+                #-----------------------------------------------------
+                # 3.5.4 - Exclui os valores no campo
+                #-----------------------------------------------------
+
+                e_date.delete(0, 'end')
+                e_entry_time.delete(0, 'end')
+                e_exit_time.delete(0, 'end')
+                e_observation.delete(0, 'end')
+            
+            #-------------------------------------------------------------
+            # 3.5.5 - Exclui a antiga tabela e visualizamos ela atualizada
+            #-------------------------------------------------------------
+
+            for widget in right.winfo_children():
+                widget.destroy()
+
+            show_table()
+
+        #-------------------------------------------------
+        # 3.6 - Criando e configurando botão 'Confirmar'
+        #-------------------------------------------------
+
+        b_confirm = tk.Button(left_down, command = update_data, text = 'Confirmar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
+        b_confirm.place(x = 115, y = 350)
+
+    except IndexError:
+        messagebox.showerror('Erro', 'Seleciona um dos dados na tabela')
+
+#-------------------------------------------------
+# 4 - Deleta os dados no banco de dados e tabela 
+#-------------------------------------------------
+
+def delete():
+    try:
+        #-------------------------------------------------
+        # 4.1 - Retorna os valores da tabela como lista
+        #------------------------------------------------- 
+
+        table_data = table.focus()
+        table_dictionary = table.item(table_data)
+        table_list = table_dictionary['values']
+
+        #-------------------------------------------------
+        # 4.2 - Retorna o ID como lista
+        #------------------------------------------------- 
+
+        value_id = [table_list[0]]
+
+        #-------------------------------------------------
+        # 4.3 - Deleta dados da tabela
+        #------------------------------------------------- 
+
+        crud.delete_info(value_id)
+        messagebox.showinfo('Deletados', 'Os dados foram deletados com sucesso!')
+
+        #-------------------------------------------------------------
+        # 3.5.5 - Exclui a antiga tabela e visualizamos ela atualizada
+        #-------------------------------------------------------------
+
+        for widget in right.winfo_children():
+            widget.destroy()
+
+        show_table()
+
+    except IndexError:
+        messagebox.showerror('Erro', 'Seleciona um dos dados na tabela')
+
 
 #--------------------------------------------
 # Definindo cores
@@ -194,14 +360,14 @@ b_input.place(x = 15, y = 310)
 # 2 - Criando botão "Atualizar":
 #--------------------------------------------
 
-b_update = tk.Button(left_down, text = 'Atualizar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
+b_update = tk.Button(left_down, command = update,text = 'Atualizar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
 b_update.place(x = 115, y = 310)
 
 #--------------------------------------------
 # 3 - Criando botão "Deletar":
 #--------------------------------------------
 
-b_delete = tk.Button(left_down, text = 'Deletar', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+b_delete = tk.Button(left_down, text = 'Deletar', command = delete, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
 b_delete.place(x = 215, y = 310)
 
 #--------------------------------------------
