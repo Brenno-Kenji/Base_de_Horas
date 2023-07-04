@@ -61,8 +61,8 @@ def show_table():
     # 1.5 - Configurando alinhamento e tamanho:
     #--------------------------------------------
 
-    alignment = ["nw", "nw", "nw", "nw", "nw", "center", "center"]
-    size = [30, 170, 140, 100, 120, 50, 100]
+    alignment = ["center", "center", "center", "center", "nw"]
+    size = [30, 120, 165, 165, 200]
     n = 0
 
     for col in coluna_header:
@@ -281,7 +281,7 @@ co9 = '#e9edf5' # Sky blue
 
 windows = tk.Tk()
 windows.title('Ferramente de base de horas - Criada por Brenno Kenji (versão: 0.2)')
-windows.geometry('898x453')
+windows.geometry('990x453')
 windows.configure(background = co9)
 windows.resizable(width = False, height = False)
 
@@ -315,7 +315,7 @@ app_name.place(x = 10, y = 20)
 
 l_date = tk.Label(left_down, text = 'Data do expediente: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
 l_date.place(x = 10, y = 40)
-e_date = DateEntry(left_down, width = 12, background = 'darkblue', foreground = 'white', borderwidth = 2)
+e_date = DateEntry(left_down, width = 12, background = 'darkblue', foreground = 'white', borderwidth = 2, data_patter = 'dd/mm/yyyy')
 e_date.place(x = 160, y = 40)
 
 #--------------------------------------------
