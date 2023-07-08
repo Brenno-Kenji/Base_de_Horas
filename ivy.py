@@ -42,9 +42,9 @@ def show_table():
     # 1.3 - Criando tabela:
     #--------------------------------------------
 
-    table = ttk.Treeview(right, selectmode = "extended", columns = coluna_header, show = "headings")
-    bar_v = ttk.Scrollbar(right, orient = "vertical", command = table.yview)
-    bar_h = ttk.Scrollbar( right, orient = "horizontal", command = table.xview)
+    table = ttk.Treeview(right_down, selectmode = "extended", columns = coluna_header, show = "headings")
+    bar_v = ttk.Scrollbar(right_down, orient = "vertical", command = table.yview)
+    bar_h = ttk.Scrollbar(right_down, orient = "horizontal", command = table.xview)
 
     #--------------------------------------------
     # 1.4 - Visualizando tabela:
@@ -55,7 +55,7 @@ def show_table():
     bar_v.grid(column = 1, row = 0, sticky = 'ns')
     bar_h.grid(column = 0, row = 1, sticky = 'ew')
 
-    right.grid_rowconfigure(0, weight = 12)
+    right_down.grid_rowconfigure(0, weight = 12)
 
     #--------------------------------------------
     # 1.5 - Configurando alinhamento e tamanho:
@@ -118,7 +118,7 @@ def insert():
     # 2.5 - Exclui a antiga tabela e visualizamos ela atualizada
     #-------------------------------------------------------------
 
-    for widget in right.winfo_children():
+    for widget in right_down.winfo_children():
         widget.destroy()
 
     show_table()
@@ -205,7 +205,7 @@ def update():
             # 3.5.5 - Exclui a antiga tabela e visualizamos ela atualizada
             #-------------------------------------------------------------
 
-            for widget in right.winfo_children():
+            for widget in right_down.winfo_children():
                 widget.destroy()
 
             show_table()
@@ -251,7 +251,7 @@ def delete():
         # 3.5.5 - Exclui a antiga tabela e visualizamos ela atualizada
         #-------------------------------------------------------------
 
-        for widget in right.winfo_children():
+        for widget in right_down.winfo_children():
             widget.destroy()
 
         show_table()
@@ -295,8 +295,11 @@ left_top.grid(row = 0, column = 0)
 left_down = tk.Frame(windows, width = 310, height = 403, background = co1, relief = 'flat')
 left_down.grid(row = 1, column = 0, sticky = tk.NSEW, padx = 0, pady = 1)
 
-right = tk.Frame(windows, width = 588, height = 403, background = co1, relief = 'flat')
-right.grid(row = 0, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
+right_up = tk.Frame(windows, width = 588, height = 50, background = co1, relief = 'flat')
+right_up.grid(row = 0, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
+
+right_down = tk.Frame(windows, width = 588, height = 403, background = co1, relief = 'flat')
+right_down.grid(row = 1, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
 
 #--------------------------------------------
 # Criando labels e entrys: 
@@ -310,7 +313,7 @@ app_name = tk.Label(left_top, text = 'Base de Horas - Pessoal', anchor = tk.NW, 
 app_name.place(x = 10, y = 20)
 
 #--------------------------------------------
-# 1 - Criando campo "Data":
+# 2 - Criando campo "Data":
 #--------------------------------------------
 
 l_date = tk.Label(left_down, text = 'Data do expediente: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
@@ -319,7 +322,7 @@ e_date = DateEntry(left_down, width = 12, background = 'darkblue', foreground = 
 e_date.place(x = 160, y = 40)
 
 #--------------------------------------------
-# 2 - Criando campo "Horário de entrada":
+# 3 - Criando campo "Horário de entrada":
 #--------------------------------------------
 
 l_entry_time = tk.Label(left_down, text = 'Horário de entrada: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
@@ -328,7 +331,7 @@ e_entry_time = tk.Entry(left_down, width = 15, justify = 'left', relief = 'solid
 e_entry_time.place(x = 160, y = 100)
 
 #--------------------------------------------
-# 3 - Criando campo "Horário de saida":
+# 4 - Criando campo "Horário de saida":
 #--------------------------------------------
 
 l_exit_time = tk.Label(left_down, text = 'Horário de saida: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
@@ -337,13 +340,22 @@ e_exit_time = tk.Entry(left_down, width = 15, justify = 'left', relief = 'solid'
 e_exit_time.place(x = 160, y = 160)
 
 #--------------------------------------------
-# 4 - Criando campo "Observações":
+# 5 - Criando campo "Observações":
 #--------------------------------------------
 
 l_observation = tk.Label(left_down, text = 'Observações: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
 l_observation.place(x = 10, y = 220)
 e_observation = tk.Entry(left_down, width = 35, justify = 'left', relief = 'solid')
 e_observation.place(x = 15, y = 250)
+
+#--------------------------------------------
+# 6 - Criando campo "Filtro":
+#--------------------------------------------
+
+l_filter_data = tk.Label(right_up, text = 'Filtro: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+l_filter_data.place(x = 10, y = 20)
+e_filter_data = tk.Entry(right_up, width = 15, justify = 'left', relief = 'solid')
+e_filter_data.place(x = 75, y = 20)
     
 #--------------------------------------------
 # Criando botoes: 
@@ -369,6 +381,13 @@ b_update.place(x = 115, y = 310)
 
 b_delete = tk.Button(left_down, text = 'Deletar', command = delete, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
 b_delete.place(x = 215, y = 310)
+
+#--------------------------------------------
+# 4 - Criando botão "Buscar":
+#--------------------------------------------
+
+b_search = tk.Button(right_up, text = 'Buscar', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+b_search.place(x = 230, y = 20)
 
 #--------------------------------------------
 # Visualizando tabela: 
