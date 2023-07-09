@@ -61,10 +61,25 @@ def update_info(i):
         WHERE id = ?'''
 
         cur.execute(query, i)
+
+#--------------------------------------------
+# Deletando dados (D)
+#--------------------------------------------
         
 def delete_info(i):
     with con:
         cur = con.cursor()
         query = '''DELETE FROM horas_trabalho WHERE id = ?'''
+
+        cur.execute(query, i)
+
+#--------------------------------------------
+# Filtrando data
+#--------------------------------------------
+
+def select_date(i):
+    with con:
+        cur = con.cursor()
+        query = '''SELECT * FROM horas_trabalho WHERE data BETWEEN data = ? and data = ?'''
 
         cur.execute(query, i)

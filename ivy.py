@@ -248,7 +248,7 @@ def delete():
         messagebox.showinfo('Deletados', 'Os dados foram deletados com sucesso!')
 
         #-------------------------------------------------------------
-        # 3.5.5 - Exclui a antiga tabela e visualizamos ela atualizada
+        # 4.6 - Exclui a antiga tabela e visualizamos ela atualizada
         #-------------------------------------------------------------
 
         for widget in right_down.winfo_children():
@@ -259,6 +259,39 @@ def delete():
     except IndexError:
         messagebox.showerror('Erro', 'Seleciona um dos dados na tabela')
 
+#-------------------------------------------------
+# 5 - Filtra as datas entres valores
+#-------------------------------------------------
+
+def filter_date():
+
+    #-------------------------------------------------
+    # 5.1 - Pega os valores dos campos
+    #-------------------------------------------------
+
+    filter_entry = e_filter_date_entry
+    filter_exit = e_filter_date_exit
+
+    #-----------------------------------------------------
+    # 5.2 - Armazena os valores dos campos em uma lista
+    #-----------------------------------------------------
+
+    date = [filter_entry, filter_exit]
+
+    #-----------------------------------------------------
+    # 5.3 - Filtra as data da tabela
+    #-----------------------------------------------------
+
+    crud.select_date(date)
+
+    #-------------------------------------------------------------
+    # 5.4 - Exclui a antiga tabela e visualizamos ela atualizada
+    #-------------------------------------------------------------
+
+    for widget in right_down.winfo_children():
+        widget.destroy()
+
+    show_table()
 
 #--------------------------------------------
 # Definindo cores
@@ -352,10 +385,15 @@ e_observation.place(x = 15, y = 250)
 # 6 - Criando campo "Filtro":
 #--------------------------------------------
 
-l_filter_data = tk.Label(right_up, text = 'Filtro: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-l_filter_data.place(x = 10, y = 20)
-e_filter_data = tk.Entry(right_up, width = 15, justify = 'left', relief = 'solid')
-e_filter_data.place(x = 75, y = 20)
+l_filter_date_entry = tk.Label(right_up, text = 'Filtrar data de: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+l_filter_date_entry.place(x = 10, y = 20)
+e_filter_date_entry = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid')
+e_filter_date_entry.place(x = 130, y = 20)
+
+l_filter_date_exit = tk.Label(right_up, text = 'a', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+l_filter_date_exit.place(x = 245, y = 20) #110
+e_filter_date_exit = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid')
+e_filter_date_exit.place(x = 275, y = 20) # 30
     
 #--------------------------------------------
 # Criando botoes: 
@@ -386,8 +424,8 @@ b_delete.place(x = 215, y = 310)
 # 4 - Criando botão "Buscar":
 #--------------------------------------------
 
-b_search = tk.Button(right_up, text = 'Buscar', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
-b_search.place(x = 230, y = 20)
+b_search = tk.Button(right_up, text = 'Buscar', command = filter_date, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+b_search.place(x = 420, y = 20)
 
 #--------------------------------------------
 # Visualizando tabela: 
