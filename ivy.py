@@ -276,7 +276,7 @@ def filter_date():
     # 5.2 - Armazena os valores dos campos em uma lista
     #-----------------------------------------------------
 
-    date = [filter_entry, filter_exit]
+    date = [filter_entry]
 
     #-----------------------------------------------------
     # 5.3 - Filtra as data da tabela
@@ -387,12 +387,12 @@ e_observation.place(x = 15, y = 250)
 
 l_filter_date_entry = tk.Label(right_up, text = 'Filtrar data de: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
 l_filter_date_entry.place(x = 10, y = 20)
-e_filter_date_entry = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid')
+e_filter_date_entry = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid', data_patter = 'dd/mm/yyyy')
 e_filter_date_entry.place(x = 130, y = 20)
 
 l_filter_date_exit = tk.Label(right_up, text = 'a', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
 l_filter_date_exit.place(x = 245, y = 20) #110
-e_filter_date_exit = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid')
+e_filter_date_exit = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid', data_patter = 'dd/mm/yyyy')
 e_filter_date_exit.place(x = 275, y = 20) # 30
     
 #--------------------------------------------
@@ -410,7 +410,7 @@ b_input.place(x = 15, y = 310)
 # 2 - Criando botão "Atualizar":
 #--------------------------------------------
 
-b_update = tk.Button(left_down, command = update,text = 'Atualizar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
+b_update = tk.Button(left_down, command = update, text = 'Atualizar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
 b_update.place(x = 115, y = 310)
 
 #--------------------------------------------
