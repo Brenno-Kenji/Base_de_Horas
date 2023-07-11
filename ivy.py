@@ -264,34 +264,39 @@ def delete():
 #-------------------------------------------------
 
 def filter_date():
+    try:
+        #-------------------------------------------------
+        # 5.1 - Pega os valores dos campos
+        #-------------------------------------------------
 
-    #-------------------------------------------------
-    # 5.1 - Pega os valores dos campos
-    #-------------------------------------------------
+        filter_entry = e_filter_date_entry.get()
+        filter_exit = e_filter_date_exit.get()
 
-    filter_entry = e_filter_date_entry
-    filter_exit = e_filter_date_exit
+        #-----------------------------------------------------
+        # 5.2 - Armazena os valores dos campos em uma lista
+        #-----------------------------------------------------
 
-    #-----------------------------------------------------
-    # 5.2 - Armazena os valores dos campos em uma lista
-    #-----------------------------------------------------
+        date = [filter_entry, filter_exit]
 
-    date = [filter_entry]
+        #-----------------------------------------------------
+        # 5.3 - Filtra as data
+        #-----------------------------------------------------
 
-    #-----------------------------------------------------
-    # 5.3 - Filtra as data da tabela
-    #-----------------------------------------------------
+        crud.select_date(date)
+        messagebox.showinfo('Filtrado', f'Foi filtrado as datas entre {filter_entry} até {filter_exit}.')
 
-    crud.select_date(date)
+        #-------------------------------------------------------------
+        # 5.4 - Exclui a antiga tabela e visualizamos ela atualizada
+        #-------------------------------------------------------------
 
-    #-------------------------------------------------------------
-    # 5.4 - Exclui a antiga tabela e visualizamos ela atualizada
-    #-------------------------------------------------------------
+        for widget in right_down.winfo_children():
+            widget.destroy()
 
-    for widget in right_down.winfo_children():
-        widget.destroy()
+        show_table()
 
-    show_table()
+    except IndexError:
+        messagebox.showerror('Erro', 'Seleciona uma data para realizar a filtragem')
+
 
 #--------------------------------------------
 # Definindo cores
@@ -391,9 +396,9 @@ e_filter_date_entry = DateEntry(right_up, width = 12, justify = 'left', relief =
 e_filter_date_entry.place(x = 130, y = 20)
 
 l_filter_date_exit = tk.Label(right_up, text = 'a', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-l_filter_date_exit.place(x = 245, y = 20) #110
+l_filter_date_exit.place(x = 245, y = 20) 
 e_filter_date_exit = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid', data_patter = 'dd/mm/yyyy')
-e_filter_date_exit.place(x = 275, y = 20) # 30
+e_filter_date_exit.place(x = 275, y = 20) 
     
 #--------------------------------------------
 # Criando botoes: 

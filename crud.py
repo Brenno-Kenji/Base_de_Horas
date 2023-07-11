@@ -80,6 +80,6 @@ def delete_info(i):
 def select_date(i):
     with con:
         cur = con.cursor()
-        query = '''SELECT * FROM horas_trabalho WHERE data LIKE ?'''
+        query = '''SELECT * FROM horas_trabalho WHERE data BETWEEN ? AND ?'''
 
         cur.execute(query, i)
