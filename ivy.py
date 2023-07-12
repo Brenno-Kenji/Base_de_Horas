@@ -6,7 +6,14 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox 
 from tkcalendar import Calendar, DateEntry
+import locale
 import crud
+
+#--------------------------------------------
+# Definindo localização para pt-br 
+#--------------------------------------------
+
+locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 
 #--------------------------------------------
 # Variáveis globais 
@@ -266,33 +273,61 @@ def delete():
 def filter_date():
     try:
         #-------------------------------------------------
-        # 5.1 - Pega os valores dos campos
+        # 5.1 - Exclui antiga tabela
+        #-------------------------------------------------
+
+        for widget in right_down.winfo_children():
+            widget.destroy()
+        
+        #-------------------------------------------------
+        # 5.2 - Pega os valores dos campos
         #-------------------------------------------------
 
         filter_entry = e_filter_date_entry.get()
         filter_exit = e_filter_date_exit.get()
 
         #-----------------------------------------------------
-        # 5.2 - Armazena os valores dos campos em uma lista
+        # 5.3 - Armazena os valores dos campos em uma lista
         #-----------------------------------------------------
 
         date = [filter_entry, filter_exit]
 
         #-----------------------------------------------------
-        # 5.3 - Filtra as data
+        # 5.4 - Filtra as data
         #-----------------------------------------------------
 
-        crud.select_date(date)
+        filtered_data = crud.select_date(date)
         messagebox.showinfo('Filtrado', f'Foi filtrado as datas entre {filter_entry} até {filter_exit}.')
 
         #-------------------------------------------------------------
-        # 5.4 - Exclui a antiga tabela e visualizamos ela atualizada
+        # 5.5 - Visualizamos tabela atualizada
         #-------------------------------------------------------------
 
-        for widget in right_down.winfo_children():
-            widget.destroy()
+        coluna_header = ['ID', 'Data', 'Horário de entrada', 'Horário de saida', 'Observações']
 
-        show_table()
+        table = ttk.Treeview(right_down, selectmode = "extended", columns = coluna_header, show = "headings")
+        bar_v = ttk.Scrollbar(right_down, orient = "vertical", command = table.yview)
+        bar_h = ttk.Scrollbar(right_down, orient = "horizontal", command = table.xview)
+
+        table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
+        table.grid(column = 0, row = 0, sticky = 'nsew')
+        bar_v.grid(column = 1, row = 0, sticky = 'ns')
+        bar_h.grid(column = 0, row = 1, sticky = 'ew')
+
+        right_down.grid_rowconfigure(0, weight = 12)
+
+        alignment = ["center", "center", "center", "center", "nw"]
+        size = [30, 120, 165, 165, 200]
+        n = 0
+
+        for col in coluna_header:
+            table.heading(col, text = col.title(), anchor = tk.CENTER)
+            table.column(col, width = size[n], anchor = alignment[n])
+            
+            n += 1
+
+        for item in filtered_data:
+            table.insert('', 'end', values = item)
 
     except IndexError:
         messagebox.showerror('Erro', 'Seleciona uma data para realizar a filtragem')
@@ -356,7 +391,7 @@ app_name.place(x = 10, y = 20)
 
 l_date = tk.Label(left_down, text = 'Data do expediente: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
 l_date.place(x = 10, y = 40)
-e_date = DateEntry(left_down, width = 12, background = 'darkblue', foreground = 'white', borderwidth = 2, data_patter = 'dd/mm/yyyy')
+e_date = DateEntry(left_down, width = 12, background = 'darkblue', foreground = 'white', borderwidth = 2, locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
 e_date.place(x = 160, y = 40)
 
 #--------------------------------------------
@@ -392,12 +427,12 @@ e_observation.place(x = 15, y = 250)
 
 l_filter_date_entry = tk.Label(right_up, text = 'Filtrar data de: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
 l_filter_date_entry.place(x = 10, y = 20)
-e_filter_date_entry = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid', data_patter = 'dd/mm/yyyy')
+e_filter_date_entry = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid', locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
 e_filter_date_entry.place(x = 130, y = 20)
 
 l_filter_date_exit = tk.Label(right_up, text = 'a', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-l_filter_date_exit.place(x = 245, y = 20) 
-e_filter_date_exit = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid', data_patter = 'dd/mm/yyyy')
+l_filter_date_exit.place(x = 252, y = 20) 
+e_filter_date_exit = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid', locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
 e_filter_date_exit.place(x = 275, y = 20) 
     
 #--------------------------------------------
@@ -431,6 +466,13 @@ b_delete.place(x = 215, y = 310)
 
 b_search = tk.Button(right_up, text = 'Buscar', command = filter_date, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
 b_search.place(x = 420, y = 20)
+
+#--------------------------------------------
+# 5 - Criando botão "Voltar tabela":
+#--------------------------------------------
+
+b_search = tk.Button(right_up, text = 'Retirar Filtro', command = show_table, width = 10, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
+b_search.place(x = 520, y = 20)
 
 #--------------------------------------------
 # Visualizando tabela: 

@@ -78,8 +78,18 @@ def delete_info(i):
 #--------------------------------------------
 
 def select_date(i):
+    array = []
+
     with con:
         cur = con.cursor()
         query = '''SELECT * FROM horas_trabalho WHERE data BETWEEN ? AND ?'''
-
         cur.execute(query, i)
+        information = cur.fetchall()
+
+        for i in information:
+            array.append(i)
+
+        return array
+
+
+        
