@@ -271,7 +271,7 @@ co9 = '#e9edf5' # Sky blue
 
 windows = tk.Tk()
 windows.title('Ferramente de base de horas - Criada por Brenno Kenji (versão: 0.2)')
-windows.geometry('990x453')
+windows.geometry('990x463')
 windows.configure(background = co9)
 windows.resizable(width = False, height = False)
 
