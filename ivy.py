@@ -271,22 +271,39 @@ co9 = '#e9edf5' # Sky blue
 
 windows = tk.Tk()
 windows.title('Ferramente de base de horas - Criada por Brenno Kenji (versão: 0.2)')
-windows.geometry('990x463')
+windows.geometry('1000x463')
 windows.configure(background = co9)
 windows.resizable(width = False, height = False)
 
+#---------Criando_abas---------#
+
+guide = ttk.Notebook(windows)
+guide.place(x = 0, y = 0, height = 463, width = 1000)
+
+dashboard = tk.Frame(guide)
+guide.add(dashboard, text = 'Dashboard')
+
+hours = tk.Frame(guide)
+guide.add(hours, text = 'Controle de horas')
+
+activies = tk.Frame(guide)
+guide.add(activies, text = 'Controle de Atividades')
+
+social = tk.Frame(guide)
+guide.add(social, text = 'Forúm')
+
 #---------Dividindo_janela---------#
 
-left_top = tk.Frame(windows, width = 310, height = 50, background = co2, relief = 'flat')
+left_top = tk.Frame(hours, width = 310, height = 50, background = co2, relief = 'flat')
 left_top.grid(row = 0, column = 0)
 
-left_down = tk.Frame(windows, width = 310, height = 403, background = co1, relief = 'flat')
+left_down = tk.Frame(hours, width = 310, height = 403, background = co1, relief = 'flat')
 left_down.grid(row = 1, column = 0, sticky = tk.NSEW, padx = 0, pady = 1)
 
-right_up = tk.Frame(windows, width = 588, height = 50, background = co1, relief = 'flat')
+right_up = tk.Frame(hours, width = 588, height = 50, background = co1, relief = 'flat')
 right_up.grid(row = 0, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
 
-right_down = tk.Frame(windows, width = 588, height = 403, background = co1, relief = 'flat')
+right_down = tk.Frame(hours, width = 588, height = 403, background = co1, relief = 'flat')
 right_down.grid(row = 1, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
 
 #---------Criando_Labels_e_Entrys---------#

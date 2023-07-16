@@ -32,9 +32,3 @@ b_input_2.place(x = 100, y = 50)
 
 windows.mainloop()
 
-# guide = ttk.Notebook(windows)
-# guide.place(x = 0, y = 0, height = 1000, width = 463)
-
-# hours = tk.Frame(guide)
-# guide.add(hours, text = 'Controle de horas')
-
