@@ -7,8 +7,6 @@ from tkcalendar import Calendar, DateEntry
 import locale
 import crud
 
-# Realizando OOP:
-
 co0 = '#f0f3f5' # Preto
 co1 = '#feffff' # Branco
 co2 = '#4fa882' # Verde
@@ -20,7 +18,9 @@ co7 = '#ef5350' # Vermelho
 co8 = '#263238' # + Verde
 co9 = '#e9edf5' # Sky blue
 
-class Ivy(tk.Tk):
+# Realizando OOP:
+
+class Window(tk.Tk):
     def __init__(self):
 
         #---------Criando_janela---------#
@@ -48,7 +48,7 @@ class Ivy(tk.Tk):
         social = tk.Frame(guide)
         guide.add(social, text = 'Forúm')
 
-
 if __name__ == '__main__':
-    ivy = Ivy()
-    ivy.mainloop()
+    window = Window()
+    window.mainloop()
+

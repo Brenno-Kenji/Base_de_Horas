@@ -14,12 +14,34 @@ locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 #---------Variáveis_globais---------#
 
 global table #O valor da variável table é retornado como global
+global h_left_top
+global h_left_down
+global h_right_up
+global h_right_down
+global h_app_name
+global h_l_date
+global h_e_date
+global h_l_entry_time
+global h_e_entry_time
+global h_l_exit_time
+global h_e_exit_time
+global h_l_observation
+global h_e_observation
+global h_l_filter_date_entry
+global h_e_filter_date_entry
+global h_l_filter_date_exit
+global h_e_filter_date_exit
+global a_left_top
+global a_left_down
+global a_right_up
+global a_right_down
+global a_app_name
 
 #---------Funções---------#
 
-##---------Visualizando_tabela---------##
+##---------Visualizando_tabela_horas---------##
 
-def show_table():
+def h_show_table():
 
     global table # Faz a variável local se tornar local
 
@@ -33,9 +55,9 @@ def show_table():
 
     ###---------Criando_tabela---------###
 
-    table = ttk.Treeview(right_down, selectmode = "extended", columns = coluna_header, show = "headings")
-    bar_v = ttk.Scrollbar(right_down, orient = "vertical", command = table.yview)
-    bar_h = ttk.Scrollbar(right_down, orient = "horizontal", command = table.xview)
+    table = ttk.Treeview(h_right_down, selectmode = "extended", columns = coluna_header, show = "headings")
+    bar_v = ttk.Scrollbar(h_right_down, orient = "vertical", command = table.yview)
+    bar_h = ttk.Scrollbar(h_right_down, orient = "horizontal", command = table.xview)
 
     ###---------Visualizando_tabela---------###
 
@@ -44,7 +66,7 @@ def show_table():
     bar_v.grid(column = 1, row = 0, sticky = 'ns')
     bar_h.grid(column = 0, row = 1, sticky = 'ew')
 
-    right_down.grid_rowconfigure(0, weight = 12)
+    h_right_down.grid_rowconfigure(0, weight = 12)
 
     ###---------Configurando_alinhamento_tamanho---------###
 
@@ -61,16 +83,16 @@ def show_table():
     for item in data:
         table.insert('', 'end', values = item)
 
-##---------Insere_dados ---------##
+##---------Insere_dados_horas---------##
 
-def insert():
+def h_insert():
 
     ###---------Pega_valor---------###
 
-    date = e_date.get()
-    entry_time = e_entry_time.get()
-    exit_time = e_exit_time.get()
-    observation = e_observation.get()
+    date = h_e_date.get()
+    entry_time = h_e_entry_time.get()
+    exit_time = h_e_exit_time.get()
+    observation = h_e_observation.get()
 
     ###---------Armazena_dados---------###
 
@@ -86,21 +108,21 @@ def insert():
 
         ####---------Exclui_valores---------####
 
-        e_date.delete(0, 'end')
-        e_entry_time.delete(0, 'end')
-        e_exit_time.delete(0, 'end')
-        e_observation.delete(0, 'end')
+        h_e_date.delete(0, 'end')
+        h_e_entry_time.delete(0, 'end')
+        h_e_exit_time.delete(0, 'end')
+        h_e_observation.delete(0, 'end')
     
     ###---------Tabela_atualizada---------###
 
-    for widget in right_down.winfo_children():
+    for widget in h_right_down.winfo_children():
         widget.destroy()
 
-    show_table()
+    h_show_table()
 
-##---------Atualiza_tabela---------##
+##---------Atualiza_tabela_horas---------##
 
-def update():
+def h_update():
     try:
         ###---------Retorna_valores_como_lista---------###
 
@@ -114,17 +136,17 @@ def update():
         
         ###---------Deleta_valores---------###
 
-        e_date.delete(0, 'end')
-        e_entry_time.delete(0, 'end')
-        e_exit_time.delete(0, 'end')
-        e_observation.delete(0, 'end')
+        h_e_date.delete(0, 'end')
+        h_e_entry_time.delete(0, 'end')
+        h_e_exit_time.delete(0, 'end')
+        h_e_observation.delete(0, 'end')
 
         ###---------Inseri_valores_nos_campos---------###
 
-        e_date.insert(0, table_list[1])
-        e_entry_time.insert(0, table_list[2])
-        e_exit_time.insert(0, table_list[3])
-        e_observation.insert(0, table_list[4])
+        h_e_date.insert(0, table_list[1])
+        h_e_entry_time.insert(0, table_list[2])
+        h_e_exit_time.insert(0, table_list[3])
+        h_e_observation.insert(0, table_list[4])
 
         ###---------Atualiza_dados---------###
 
@@ -132,10 +154,10 @@ def update():
 
             ####---------Pega_valor---------####
 
-            date = e_date.get()
-            entry_time = e_entry_time.get()
-            exit_time = e_exit_time.get()
-            observation = e_observation.get()
+            date = h_e_date.get()
+            entry_time = h_e_entry_time.get()
+            exit_time = h_e_exit_time.get()
+            observation = h_e_observation.get()
 
             ####---------Armazena_dados---------####
 
@@ -151,29 +173,29 @@ def update():
 
                 #####---------Exclui_valores---------#####
 
-                e_date.delete(0, 'end')
-                e_entry_time.delete(0, 'end')
-                e_exit_time.delete(0, 'end')
-                e_observation.delete(0, 'end')
+                h_e_date.delete(0, 'end')
+                h_e_entry_time.delete(0, 'end')
+                h_e_exit_time.delete(0, 'end')
+                h_e_observation.delete(0, 'end')
             
             ####---------Tabela_atualizada---------####
 
-            for widget in right_down.winfo_children():
+            for widget in h_right_down.winfo_children():
                 widget.destroy()
 
-            show_table()
+            h_show_table()
 
         ###---------Configura_botão_confirmar---------###
 
-        b_confirm = tk.Button(left_down, command = update_data, text = 'Confirmar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
+        b_confirm = tk.Button(h_left_down, command = update_data, text = 'Confirmar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
         b_confirm.place(x = 115, y = 350)
 
     except IndexError:
         messagebox.showerror('Erro', 'Seleciona um dos dados na tabela')
 
-##---------Deleta_dados---------##
+##---------Deleta_dados_horas---------##
 
-def delete():
+def h_delete():
     try:
         ###---------Retorna_valores_como_lista---------###
 
@@ -192,27 +214,27 @@ def delete():
 
         ###---------Tabela_atualizada---------###
 
-        for widget in right_down.winfo_children():
+        for widget in h_right_down.winfo_children():
             widget.destroy()
 
-        show_table()
+        h_show_table()
 
     except IndexError:
         messagebox.showerror('Erro', 'Seleciona um dos dados na tabela')
 
-##---------Filtra_data---------##
+##---------Filtra_data_horas---------##
 
-def filter_date():
+def h_filter_date():
     try:
         ###---------Filtra_tabela---------###
 
-        for widget in right_down.winfo_children():
+        for widget in h_right_down.winfo_children():
             widget.destroy()
         
         ###---------Pega_valor---------###
 
-        filter_entry = e_filter_date_entry.get()
-        filter_exit = e_filter_date_exit.get()
+        filter_entry = h_e_filter_date_entry.get()
+        filter_exit = h_e_filter_date_exit.get()
 
         ###---------Armazena_dados---------###
 
@@ -227,16 +249,16 @@ def filter_date():
 
         coluna_header = ['ID', 'Data', 'Horário de entrada', 'Horário de saida', 'Observações']
 
-        table = ttk.Treeview(right_down, selectmode = "extended", columns = coluna_header, show = "headings")
-        bar_v = ttk.Scrollbar(right_down, orient = "vertical", command = table.yview)
-        bar_h = ttk.Scrollbar(right_down, orient = "horizontal", command = table.xview)
+        table = ttk.Treeview(h_right_down, selectmode = "extended", columns = coluna_header, show = "headings")
+        bar_v = ttk.Scrollbar(h_right_down, orient = "vertical", command = table.yview)
+        bar_h = ttk.Scrollbar(h_right_down, orient = "horizontal", command = table.xview)
 
         table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
         table.grid(column = 0, row = 0, sticky = 'nsew')
         bar_v.grid(column = 1, row = 0, sticky = 'ns')
         bar_h.grid(column = 0, row = 1, sticky = 'ew')
 
-        right_down.grid_rowconfigure(0, weight = 12)
+        h_right_down.grid_rowconfigure(0, weight = 12)
 
         alignment = ["center", "center", "center", "center", "nw"]
         size = [30, 120, 165, 165, 200]
@@ -270,7 +292,7 @@ co9 = '#e9edf5' # Sky blue
 #---------Criando_janela---------#
 
 windows = tk.Tk()
-windows.title('Ferramente de base de horas - Criada por Brenno Kenji (versão: 0.2)')
+windows.title('IVY - Criada por Brenno Kenji (testes)')
 windows.geometry('1000x463')
 windows.configure(background = co9)
 windows.resizable(width = False, height = False)
@@ -290,100 +312,158 @@ activies = tk.Frame(guide)
 guide.add(activies, text = 'Controle de Atividades')
 
 social = tk.Frame(guide)
-guide.add(social, text = 'Forúm')
+guide.add(social, text = 'Fórum')
 
-#---------Dividindo_janela---------#
+#---------Criando_aba_controle_de_horas---------#
 
-left_top = tk.Frame(hours, width = 310, height = 50, background = co2, relief = 'flat')
-left_top.grid(row = 0, column = 0)
+def hours_management():
 
-left_down = tk.Frame(hours, width = 310, height = 403, background = co1, relief = 'flat')
-left_down.grid(row = 1, column = 0, sticky = tk.NSEW, padx = 0, pady = 1)
+    #---------Variáveis_globais---------#
 
-right_up = tk.Frame(hours, width = 588, height = 50, background = co1, relief = 'flat')
-right_up.grid(row = 0, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
+    global h_left_top
+    global h_left_down
+    global h_right_up
+    global h_right_down
+    global h_app_name
+    global h_l_date
+    global h_e_date
+    global h_l_entry_time
+    global h_e_entry_time
+    global h_l_exit_time
+    global h_e_exit_time
+    global h_l_observation
+    global h_e_observation
+    global h_l_filter_date_entry
+    global h_e_filter_date_entry
+    global h_l_filter_date_exit
+    global h_e_filter_date_exit
 
-right_down = tk.Frame(hours, width = 588, height = 403, background = co1, relief = 'flat')
-right_down.grid(row = 1, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
+    #---------Dividindo_janela---------#
 
-#---------Criando_Labels_e_Entrys---------#
+    h_left_top = tk.Frame(hours, width = 310, height = 50, background = co2, relief = 'flat')
+    h_left_top.grid(row = 0, column = 0)
 
-##---------Criando_Titulo---------##
+    h_left_down = tk.Frame(hours, width = 310, height = 403, background = co1, relief = 'flat')
+    h_left_down.grid(row = 1, column = 0, sticky = tk.NSEW, padx = 0, pady = 1)
 
-app_name = tk.Label(left_top, text = 'Base de Horas - Pessoal', anchor = tk.NW, font = ('Ivy 13 bold'), background = co2, fg = co1, relief = 'flat')
-app_name.place(x = 10, y = 20)
+    h_right_up = tk.Frame(hours, width = 588, height = 50, background = co1, relief = 'flat')
+    h_right_up.grid(row = 0, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
 
-##---------Criando_campo_"Data do expediente"---------##
+    h_right_down = tk.Frame(hours, width = 588, height = 403, background = co1, relief = 'flat')
+    h_right_down.grid(row = 1, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
 
-l_date = tk.Label(left_down, text = 'Data do expediente: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-l_date.place(x = 10, y = 40)
-e_date = DateEntry(left_down, width = 12, background = 'darkblue', foreground = 'white', borderwidth = 2, locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
-e_date.place(x = 160, y = 40)
+    #---------Criando_Labels_e_Entrys---------#
 
-##---------Criando_campo_"Horário de entrada"---------##
+    ##---------Criando_Titulo---------##
 
-l_entry_time = tk.Label(left_down, text = 'Horário de entrada: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-l_entry_time.place(x = 10, y = 100)
-e_entry_time = tk.Entry(left_down, width = 15, justify = 'left', relief = 'solid')
-e_entry_time.place(x = 160, y = 100)
+    h_app_name = tk.Label(h_left_top, text = 'Controle de Horas', anchor = tk.NW, font = ('Ivy 13 bold'), background = co2, fg = co1, relief = 'flat')
+    h_app_name.place(x = 10, y = 20)
 
-##---------Criando_campo_"Horário de saida"---------##
+    ##---------Criando_campo_"Data do expediente"---------##
 
-l_exit_time = tk.Label(left_down, text = 'Horário de saida: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-l_exit_time.place(x = 10, y = 160)
-e_exit_time = tk.Entry(left_down, width = 15, justify = 'left', relief = 'solid')
-e_exit_time.place(x = 160, y = 160)
+    h_l_date = tk.Label(h_left_down, text = 'Data do expediente: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+    h_l_date.place(x = 10, y = 40)
+    h_e_date = DateEntry(h_left_down, width = 12, background = 'darkblue', foreground = 'white', borderwidth = 2, locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
+    h_e_date.place(x = 160, y = 40)
 
-##---------Criando_campo_"Observações"---------##
+    ##---------Criando_campo_"Horário de entrada"---------##
 
-l_observation = tk.Label(left_down, text = 'Observações: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-l_observation.place(x = 10, y = 220)
-e_observation = tk.Entry(left_down, width = 35, justify = 'left', relief = 'solid')
-e_observation.place(x = 15, y = 250)
+    h_l_entry_time = tk.Label(h_left_down, text = 'Horário de entrada: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+    h_l_entry_time.place(x = 10, y = 100)
+    h_e_entry_time = tk.Entry(h_left_down, width = 15, justify = 'left', relief = 'solid')
+    h_e_entry_time.place(x = 160, y = 100)
 
-##---------Criando_campo_"Filtrar data"---------##
+    ##---------Criando_campo_"Horário de saida"---------##
 
-l_filter_date_entry = tk.Label(right_up, text = 'Filtrar data de: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-l_filter_date_entry.place(x = 10, y = 20)
-e_filter_date_entry = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid', locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
-e_filter_date_entry.place(x = 130, y = 20)
+    h_l_exit_time = tk.Label(h_left_down, text = 'Horário de saida: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+    h_l_exit_time.place(x = 10, y = 160)
+    h_e_exit_time = tk.Entry(h_left_down, width = 15, justify = 'left', relief = 'solid')
+    h_e_exit_time.place(x = 160, y = 160)
 
-l_filter_date_exit = tk.Label(right_up, text = 'a', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-l_filter_date_exit.place(x = 252, y = 20) 
-e_filter_date_exit = DateEntry(right_up, width = 12, justify = 'left', relief = 'solid', locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
-e_filter_date_exit.place(x = 275, y = 20) 
+    ##---------Criando_campo_"Observações"---------##
+
+    h_l_observation = tk.Label(h_left_down, text = 'Observações: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+    h_l_observation.place(x = 10, y = 220)
+    h_e_observation = tk.Entry(h_left_down, width = 35, justify = 'left', relief = 'solid')
+    h_e_observation.place(x = 15, y = 250)
+
+    ##---------Criando_campo_"Filtrar data"---------##
+
+    h_l_filter_date_entry = tk.Label(h_right_up, text = 'Filtrar data de: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+    h_l_filter_date_entry.place(x = 10, y = 20)
+    h_e_filter_date_entry = DateEntry(h_right_up, width = 12, justify = 'left', relief = 'solid', locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
+    h_e_filter_date_entry.place(x = 130, y = 20)
+
+    h_l_filter_date_exit = tk.Label(h_right_up, text = 'a', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+    h_l_filter_date_exit.place(x = 252, y = 20) 
+    h_e_filter_date_exit = DateEntry(h_right_up, width = 12, justify = 'left', relief = 'solid', locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
+    h_e_filter_date_exit.place(x = 275, y = 20) 
+        
+    #---------Criando_Botões---------#
+
+    ##---------Criando_botão_"Inserir"---------##
+
+    h_b_input = tk.Button(h_left_down, command = h_insert, text = 'Inserir', width = 7, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
+    h_b_input.place(x = 15, y = 310)
+
+    ##---------Criando_botão_"Atualizar"---------##
+
+    h_b_update = tk.Button(h_left_down, command = h_update, text = 'Atualizar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
+    h_b_update.place(x = 115, y = 310)
+
+    ##---------Criando_botão_"Deletar"---------##
+
+    h_b_delete = tk.Button(h_left_down, text = 'Deletar', command = h_delete, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+    h_b_delete.place(x = 215, y = 310)
+
+    ##---------Criando_botão_"Buscar"---------##
+
+    h_b_search = tk.Button(h_right_up, text = 'Buscar', command = h_filter_date, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+    h_b_search.place(x = 420, y = 20)
+
+    ##---------Criando_botão_"Retirar Filtro"---------##
+
+    h_b_search = tk.Button(h_right_up, text = 'Retirar Filtro', command = h_show_table, width = 10, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
+    h_b_search.place(x = 520, y = 20)
+
+    #---------Visualizar_tabela---------#
+
+    h_show_table()
+
+    #---------Manter_o_sistema_em_loop---------#
+
+    windows.mainloop()
+
+#---------Criando_aba_controle_de_atividades---------#
+
+def activies_management():
     
-#---------Criando_Botões---------#
+    #---------Variáveis_globais---------#
 
-##---------Criando_botão_"Inserir"---------##
+    global a_left_top
+    global a_left_down
+    global a_right_up
+    global a_right_down
+    global a_app_name
 
-b_input = tk.Button(left_down, command = insert, text = 'Inserir', width = 7, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
-b_input.place(x = 15, y = 310)
+    #---------Dividindo_janela---------#
 
-##---------Criando_botão_"Atualizar"---------##
+    a_left_top = tk.Frame(activies, width = 310, height = 50, background = co2, relief = 'flat')
+    a_left_top.grid(row = 0, column = 0)
 
-b_update = tk.Button(left_down, command = update, text = 'Atualizar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
-b_update.place(x = 115, y = 310)
+    a_left_down = tk.Frame(activies, width = 310, height = 403, background = co1, relief = 'flat')
+    a_left_down.grid(row = 1, column = 0, sticky = tk.NSEW, padx = 0, pady = 1)
 
-##---------Criando_botão_"Deletar"---------##
+    a_right_up = tk.Frame(activies, width = 588, height = 50, background = co1, relief = 'flat')
+    a_right_up.grid(row = 0, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
 
-b_delete = tk.Button(left_down, text = 'Deletar', command = delete, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
-b_delete.place(x = 215, y = 310)
+    a_right_down = tk.Frame(activies, width = 588, height = 403, background = co1, relief = 'flat')
+    a_right_down.grid(row = 1, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
 
-##---------Criando_botão_"Buscar"---------##
+    a_app_name = tk.Label(a_left_top, text = 'Controle de Atividades', anchor = tk.NW, font = ('Ivy 13 bold'), background = co2, fg = co1, relief = 'flat')
+    a_app_name.place(x = 10, y = 20)
 
-b_search = tk.Button(right_up, text = 'Buscar', command = filter_date, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
-b_search.place(x = 420, y = 20)
+    windows.mainloop()
 
-##---------Criando_botão_"Retirar Filtro"---------##
-
-b_search = tk.Button(right_up, text = 'Retirar Filtro', command = show_table, width = 10, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
-b_search.place(x = 520, y = 20)
-
-#---------Visualizar_tabela---------#
-
-show_table()
-
-#---------Manter_o_sistema_em_loop---------#
-
-windows.mainloop()
+hours_management()
+activies_management()
