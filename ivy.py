@@ -11,33 +11,6 @@ import crud
 
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
 
-#---------Variáveis_globais---------#
-
-global table 
-global h_left_top
-global h_left_down
-global h_right_up
-global h_right_down
-global h_app_name
-global h_l_date
-global h_e_date
-global h_l_entry_time
-global h_e_entry_time
-global h_l_exit_time
-global h_e_exit_time
-global h_l_observation
-global h_e_observation
-global h_l_filter_date_entry
-global h_e_filter_date_entry
-global h_l_filter_date_exit
-global h_e_filter_date_exit
-
-global a_left_top
-global a_left_down
-global a_right_up
-global a_right_down
-global a_app_name
-
 #---------Definindo_cores---------#
 
 co0 = '#f0f3f5' # Preto
@@ -51,9 +24,39 @@ co7 = '#ef5350' # Vermelho
 co8 = '#263238' # + Verde
 co9 = '#e9edf5' # Sky blue
 
-#---------Criando_janela---------#
+#---------Criando_software---------#
 
 def ivy(): 
+
+    #---------Variáveis_globais---------#
+
+    global table 
+    global h_left_top
+    global h_left_down
+    global h_right_up
+    global h_right_down
+    global h_app_name
+    global h_l_date
+    global h_e_date
+    global h_l_entry_time
+    global h_e_entry_time
+    global h_l_exit_time
+    global h_e_exit_time
+    global h_l_observation
+    global h_e_observation
+    global h_l_filter_date_entry
+    global h_e_filter_date_entry
+    global h_l_filter_date_exit
+    global h_e_filter_date_exit
+
+    global a_left_top
+    global a_left_down
+    global a_right_up
+    global a_right_down
+    global a_app_name
+
+    #---------Criando_janela---------#
+
     windows = tk.Tk()
     windows.title('IVY - Criada por Brenno Kenji (testes)')
     windows.geometry('1000x463')
@@ -461,8 +464,7 @@ def ivy():
 
     #---------Chamando_funções---------#
 
-    
-    hours_management()
+    # hours_management()
     activies_management()
 
 if __name__ == '__main__':

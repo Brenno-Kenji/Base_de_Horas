@@ -1,12 +1,8 @@
-#--------------------------------------------
-# Importar SQlite
-#--------------------------------------------
+#------Importando_SQlite------#
 
 import sqlite3 
 
-#--------------------------------------------
-# Conectando com banco de dados
-#--------------------------------------------
+#------Conectando_com_banco_de_dados------#
 
 con = sqlite3.connect('Dados/Base_de_Horas.db')
 

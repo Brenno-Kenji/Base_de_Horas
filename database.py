@@ -1,25 +1,38 @@
-#--------------------------------------------
-# Importar SQlite
-#--------------------------------------------
+#------Importando_SQlite------#
 
 import sqlite3 
 
-#--------------------------------------------
-# Criando banco de dados 
-#--------------------------------------------
+#------Criando_banco_de_dados_horas------#
 
-con = sqlite3.connect('Dados/Base_de_Horas.db')
+def db_hours():
 
-#--------------------------------------------
-# Criando tabela 
-#--------------------------------------------
+    con = sqlite3.connect('Dados/Base_de_Horas.db')
 
-with con: 
-    cur = con.cursor()
-    cur.execute('''CREATE TABLE horas_trabalho(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    data DATE,
-    horario_entrada TEXT,
-    horario_saida TEXT,
-    informacoes_extras TEXT
-    )''')
+    #------Criando_tabela------#
+
+    with con: 
+        cur = con.cursor()
+        cur.execute('''CREATE TABLE IF NOT EXISTS horas_trabalho(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        data DATE,
+        horario_entrada TEXT,
+        horario_saida TEXT,
+        informacoes_extras TEXT
+        )''')
+
+#------Criando_banco_de_dados_atividades------#
+
+def db_activies():
+
+    con = sqlite3.connect('Dados/Base_de_Atividades.db')
+
+    #------Criando_tabela------#
+
+    with con: 
+        cur = con.cursor()
+        cur.execute('''CREATE TABLE IF NOT EXISTS atividades (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        data DATE,
+        atividade TEXT,
+        progresso TEXT
+        )''')
