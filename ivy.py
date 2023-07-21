@@ -6,6 +6,7 @@ from tkinter import messagebox
 from tkcalendar import Calendar, DateEntry
 import locale
 import crud
+import time
 
 #---------Definindo_localização_pt-br---------#
 
@@ -23,6 +24,7 @@ co6 = '#038cfc' # Azul
 co7 = '#ef5350' # Vermelho
 co8 = '#263238' # + Verde
 co9 = '#e9edf5' # Sky blue
+co10 = '#ffbd03' # Amarelo
 
 #---------Criando_software---------#
 
@@ -451,17 +453,76 @@ def ivy():
         a_left_down = tk.Frame(activies, width = 310, height = 403, background = co1, relief = 'flat')
         a_left_down.grid(row = 1, column = 0, sticky = tk.NSEW, padx = 0, pady = 1)
 
-        a_right_up = tk.Frame(activies, width = 588, height = 50, background = co1, relief = 'flat')
+        a_right_up = tk.Frame(activies, width = 690, height = 50, background = co1, relief = 'flat')
         a_right_up.grid(row = 0, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
 
-        a_right_down = tk.Frame(activies, width = 588, height = 403, background = co1, relief = 'flat')
+        a_right_down = tk.Frame(activies, width = 690, height = 403, background = co1, relief = 'flat')
         a_right_down.grid(row = 1, column = 1, rowspan = 2, padx = 1, pady = 0, sticky = tk.NSEW)
 
-        a_app_name = tk.Label(a_left_top, text = 'Controle de Atividades', anchor = tk.NW, font = ('Ivy 13 bold'), background = co2, fg = co1, relief = 'flat')
+        #---------Criando_Labels_e_Entrys---------#
+
+        ##---------Criando_Titulo---------##
+
+        a_app_name = tk.Label(a_left_top, text = 'Controle de Atividades', anchor = tk.CENTER, font = ('Ivy 13 bold'), background = co2, fg = co1, relief = 'flat')
         a_app_name.place(x = 10, y = 20)
 
-        windows.mainloop()
+        ##---------Criando_data---------##
 
+        a_l_date = tk.Label(a_left_down, text = 'Data da atividade: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+        a_l_date.place(x = 10, y = 80)
+        a_e_date = DateEntry(a_left_down, width = 14, background = 'darkblue', foreground = 'white', borderwidth = 2, locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
+        a_e_date.place(x = 160, y = 80)
+
+        ##---------Criando_tipo_de_atividade---------##
+
+        list_type = ['exemplo1', 'exemplo2', 'exemplo3']
+        
+        a_l_type = tk.Label(a_left_down, text = 'Tipo de atividade: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+        a_l_type.place(x = 10, y = 140)
+        a_e_type = ttk.Combobox(a_left_down, values = list_type, width = 14, background = 'darkblue', foreground = co4)
+        a_e_type.set(list_type[0])
+        a_e_type.place(x = 160, y = 140)
+
+        ##---------Criando_barra_de_progressão---------##
+
+        prog_bar = tk.DoubleVar()
+
+        def example_bar_progress():
+            i = a_e_progress.get()
+            prog_bar.set(i)
+
+        prog_values =[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+        
+        a_l_progress = tk.Label(a_left_down, text = 'Progressão: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+        a_l_progress.place(x = 10, y = 200)
+        a_e_progress = ttk.Spinbox(a_left_down, values = prog_values, width = 14, background = 'darkblue', foreground = co4)
+        a_e_progress.place(x = 155, y = 200)
+
+        a_bar_progress = ttk.Progressbar(a_left_down, variable = prog_bar, maximum = 100, length = 280)
+        a_bar_progress.place(x = 10, y = 250)
+
+        #---------Criando_Botões---------#
+        
+        ##---------Botão_Inserir---------##
+
+        a_b_new_activies = tk.Button(a_left_down, text = 'Inserir', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_new_activies.place(x = 15, y = 20)
+
+        ##---------Botão_Editar---------##
+
+        a_b_edit = tk.Button(a_left_down, text = 'Editar', width = 7, font = ('Ivy 8 bold'), background = co10, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_edit.place(x = 115, y = 20)
+
+        ##---------Botão_Excluir---------##
+
+        a_b_delete = tk.Button(a_left_down, text = 'Excluir', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_delete.place(x = 215, y = 20)
+
+        a_b_exemple = tk.Button(a_left_down, command = example_bar_progress, text = 'Exemplo', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_exemple.place(x = 10, y = 310)
+
+        windows.mainloop()
+        
     #---------Chamando_funções---------#
 
     # hours_management()
