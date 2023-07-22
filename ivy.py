@@ -6,7 +6,7 @@ from tkinter import messagebox
 from tkcalendar import Calendar, DateEntry
 import locale
 import crud
-
+import concurrent.futures
 #---------Definindo_localização_pt-br---------#
 
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
@@ -429,10 +429,6 @@ def ivy():
 
         h_show_table()
 
-        #---------Manter_o_sistema_em_loop---------#
-
-        windows.mainloop()
-
     #---------Criando_aba_controle_de_atividades---------#
 
     def activies_management():
@@ -531,13 +527,23 @@ def ivy():
 
         a_b_delete = tk.Button(a_left_down, text = 'Excluir', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
         a_b_delete.place(x = 210, y = 320)
-
-        windows.mainloop()
         
     #---------Chamando_funções---------#
 
-    # hours_management()
+    hours_management()
     activies_management()
 
+    #---------Manter_o_sistema_em_loop---------#
+
+    windows.mainloop()
+
+#---------Rodando_o_sistema---------#
+
 if __name__ == '__main__':
+    
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        
+        h_m = executor.submit(ivy().hours_management)
+        a_m = executor.submit(ivy().activies.management)
+
     ivy()
