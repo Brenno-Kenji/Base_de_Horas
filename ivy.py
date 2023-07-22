@@ -469,30 +469,47 @@ def ivy():
         ##---------Criando_data---------##
 
         a_l_date = tk.Label(a_left_down, text = 'Data da atividade: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-        a_l_date.place(x = 10, y = 80)
+        a_l_date.place(x = 10, y = 20)
         a_e_date = DateEntry(a_left_down, width = 14, background = 'darkblue', foreground = 'white', borderwidth = 2, locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
-        a_e_date.place(x = 160, y = 80)
+        a_e_date.place(x = 160, y = 20)
 
         ##---------Criando_tipo_de_atividade---------##
 
         list_type = ['exemplo1', 'exemplo2', 'exemplo3']
         
         a_l_type = tk.Label(a_left_down, text = 'Tipo de atividade: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-        a_l_type.place(x = 10, y = 140)
+        a_l_type.place(x = 10, y = 80)
         a_e_type = ttk.Combobox(a_left_down, values = list_type, width = 14, background = 'darkblue', foreground = co4)
-        a_e_type.set(list_type[0])
-        a_e_type.place(x = 160, y = 140)
+        a_e_type.set(list_type[1])
+        a_e_type.place(x = 160, y = 80)
+        
+        ##---------Criando_detalhe_da_atividade---------##
+
+        type_activities = a_e_type.get()
+
+        if type_activities == list_type[0]:
+
+            a_l_type_details = tk.Label(a_left_down, text = 'Detalhe da atividade: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+            a_l_type_details.place(x = 10, y = 140)
+            #  a_e_type = ttk.Combobox(a_left_down, values = list_type, width = 14, background = 'darkblue', foreground = co4)
+            # a_e_type.set(list_type[0])
+            # a_e_type.place(x = 160, y = 140)
+
 
         ##---------Criando_barra_de_progressão---------##
 
         prog_bar = tk.DoubleVar()
-        # prog_bar.set()
+        prog_bar.set(0)
         
         prog_values =[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
         
+        def update_progressbar():
+            value = int(a_e_progress.get())
+            prog_bar.set(value)
+    
         a_l_progress = tk.Label(a_left_down, text = 'Progressão: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
         a_l_progress.place(x = 10, y = 200)
-        a_e_progress = ttk.Spinbox(a_left_down, values = prog_values, width = 14, background = 'darkblue', foreground = co4)
+        a_e_progress = ttk.Spinbox(a_left_down, values = prog_values, command = update_progressbar, width = 14, background = 'darkblue', foreground = co4)
         a_e_progress.place(x = 155, y = 200)
 
         a_bar_progress = ttk.Progressbar(a_left_down, variable = prog_bar, maximum = 100, length = 280)
@@ -502,24 +519,18 @@ def ivy():
         
         ##---------Botão_Adicionar---------##
 
-        a_b_add_activies = tk.Button(a_left_down, text = 'Adicionar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_add_activies.place(x = 10, y = 20)
+        a_b_add_activies = tk.Button(a_left_down, text = 'Adicionar', width = 7, font = ('Ivy 8 bold'), background = co11, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_add_activies.place(x = 10, y = 320)
 
         ##---------Botão_Editar---------##
 
         a_b_edit = tk.Button(a_left_down, text = 'Editar', width = 7, font = ('Ivy 8 bold'), background = co10, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_edit.place(x = 110, y = 20)
+        a_b_edit.place(x = 110, y = 320)
 
         ##---------Botão_Excluir---------##
 
         a_b_delete = tk.Button(a_left_down, text = 'Excluir', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_delete.place(x = 210, y = 20)
-
-        ##---------Botão_Inserir---------##
-
-        a_b_insert = tk.Button(a_left_down, text = 'Adicionar', width = 7, font = ('Ivy 8 bold'), background = co11, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_insert.place(x = 110, y = 320)
-
+        a_b_delete.place(x = 210, y = 320)
 
         windows.mainloop()
         
