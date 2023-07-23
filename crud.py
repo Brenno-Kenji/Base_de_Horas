@@ -100,7 +100,7 @@ def a_insert_info(i):
 
 def a_access_info():
     
-    array = ['23/07/2023', 'exemplo1', 'exemplo_descrico', 10]
+    array = [['23/07/2023', 'exemplo1', 'exemplo_descrico', 10]]
 
     with con_activies:
         cur = con_activies.cursor()

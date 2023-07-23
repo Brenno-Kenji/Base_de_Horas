@@ -30,33 +30,6 @@ co11 = '#5783db' # Azul escuro
 
 def ivy(): 
 
-    #---------Variáveis_globais---------#
-
-    global table 
-    global h_left_top
-    global h_left_down
-    global h_right_up
-    global h_right_down
-    global h_app_name
-    global h_l_date
-    global h_e_date
-    global h_l_entry_time
-    global h_e_entry_time
-    global h_l_exit_time
-    global h_e_exit_time
-    global h_l_observation
-    global h_e_observation
-    global h_l_filter_date_entry
-    global h_e_filter_date_entry
-    global h_l_filter_date_exit
-    global h_e_filter_date_exit
-
-    global a_left_top
-    global a_left_down
-    global a_right_up
-    global a_right_down
-    global a_app_name
-
     #---------Criando_janela---------#
 
     windows = tk.Tk()
@@ -92,7 +65,7 @@ def ivy():
         
         def h_show_table():
 
-            global table # Faz a variável local se tornar global
+            global h_table # Faz a variável local se tornar global
 
             ###---------Criando_titulos_tabela---------###
 
@@ -104,14 +77,14 @@ def ivy():
 
             ###---------Criando_tabela---------###
 
-            table = ttk.Treeview(h_right_down, selectmode = "extended", columns = coluna_header, show = "headings")
-            bar_v = ttk.Scrollbar(h_right_down, orient = "vertical", command = table.yview)
-            bar_h = ttk.Scrollbar(h_right_down, orient = "horizontal", command = table.xview)
+            h_table = ttk.Treeview(h_right_down, selectmode = "extended", columns = coluna_header, show = "headings")
+            bar_v = ttk.Scrollbar(h_right_down, orient = "vertical", command = h_table.yview)
+            bar_h = ttk.Scrollbar(h_right_down, orient = "horizontal", command = h_table.xview)
 
             ###---------Visualizando_tabela---------###
 
-            table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
-            table.grid(column = 0, row = 0, sticky = 'nsew')
+            h_table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
+            h_table.grid(column = 0, row = 0, sticky = 'nsew')
             bar_v.grid(column = 1, row = 0, sticky = 'ns')
             bar_h.grid(column = 0, row = 1, sticky = 'ew')
 
@@ -124,13 +97,13 @@ def ivy():
             n = 0
 
             for col in coluna_header:
-                table.heading(col, text = col.title(), anchor = tk.CENTER)
-                table.column(col, width = size[n], anchor = alignment[n])
+                h_table.heading(col, text = col.title(), anchor = tk.CENTER)
+                h_table.column(col, width = size[n], anchor = alignment[n])
                 
                 n += 1
 
             for item in data:
-                table.insert('', 'end', values = item)
+                h_table.insert('', 'end', values = item)
         
         def h_insert():
 
@@ -171,8 +144,8 @@ def ivy():
             try:
                 ###---------Retorna_valores_como_lista---------###
 
-                table_data = table.focus()
-                table_dictionary = table.item(table_data)
+                table_data = h_table.focus()
+                table_dictionary = h_table.item(table_data)
                 table_list = table_dictionary['values']
 
                 ###---------Retorna_ID---------###
@@ -242,8 +215,8 @@ def ivy():
             try:
                 ###---------Retorna_valores_como_lista---------###
 
-                table_data = table.focus()
-                table_dictionary = table.item(table_data)
+                table_data = h_table.focus()
+                table_dictionary = h_table.item(table_data)
                 table_list = table_dictionary['values']
 
                 ###---------Retorna_ID---------###
@@ -290,12 +263,12 @@ def ivy():
 
                 coluna_header = ['ID', 'Data', 'Horário de entrada', 'Horário de saida', 'Observações']
 
-                table = ttk.Treeview(h_right_down, selectmode = "extended", columns = coluna_header, show = "headings")
-                bar_v = ttk.Scrollbar(h_right_down, orient = "vertical", command = table.yview)
-                bar_h = ttk.Scrollbar(h_right_down, orient = "horizontal", command = table.xview)
+                h_table = ttk.Treeview(h_right_down, selectmode = "extended", columns = coluna_header, show = "headings")
+                bar_v = ttk.Scrollbar(h_right_down, orient = "vertical", command = h_table.yview)
+                bar_h = ttk.Scrollbar(h_right_down, orient = "horizontal", command = h_table.xview)
 
-                table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
-                table.grid(column = 0, row = 0, sticky = 'nsew')
+                h_table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
+                h_table.grid(column = 0, row = 0, sticky = 'nsew')
                 bar_v.grid(column = 1, row = 0, sticky = 'ns')
                 bar_h.grid(column = 0, row = 1, sticky = 'ew')
 
@@ -306,19 +279,20 @@ def ivy():
                 n = 0
 
                 for col in coluna_header:
-                    table.heading(col, text = col.title(), anchor = tk.CENTER)
-                    table.column(col, width = size[n], anchor = alignment[n])
+                    h_table.heading(col, text = col.title(), anchor = tk.CENTER)
+                    h_table.column(col, width = size[n], anchor = alignment[n])
                     
                     n += 1
 
                 for item in filtered_data:
-                    table.insert('', 'end', values = item)
+                    h_table.insert('', 'end', values = item)
 
             except IndexError:
                 messagebox.showerror('Erro', 'Seleciona uma data para realizar a filtragem')
                 
         #---------Variáveis_globais---------#
 
+        global h_table 
         global h_left_top
         global h_left_down
         global h_right_up
@@ -439,33 +413,35 @@ def ivy():
         
         def a_show_table():
 
-            coluna_header = ['Data', 'Atividade', 'Descriçao da Atv.', 'Progresso (%)']
+            global a_table
+            
+            coluna_header = ['Data', 'Atividade', 'Descriçao', 'Progresso (%)']
 
             data = crud.a_access_info()
 
-            table = ttk.Treeview(a_right_down, selectmode = "extended", columns = coluna_header, show = "headings")
-            bar_v = ttk.Scrollbar(a_right_down, orient = "vertical", command = table.yview)
-            bar_h = ttk.Scrollbar(a_right_down, orient = "horizontal", command = table.xview)   
+            a_table = ttk.Treeview(a_right_down, selectmode = "extended", columns = coluna_header, show = "headings")
+            bar_v = ttk.Scrollbar(a_right_down, orient = "vertical", command = a_table.yview)
+            bar_h = ttk.Scrollbar(a_right_down, orient = "horizontal", command = a_table.xview)   
 
-            table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
-            table.grid(column = 0, row = 0, sticky = 'nsew')
+            a_table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
+            a_table.grid(column = 0, row = 0, sticky = 'nsew')
             bar_v.grid(column = 1, row = 0, sticky = 'ns')
             bar_h.grid(column = 0, row = 1, sticky = 'ew')
 
             a_right_down.grid_rowconfigure(0, weight = 12)
 
             alignment = ["center", "nw", "nw", "center"]
-            size = [30, 120, 165, 165, 200]
+            size = [120, 140, 290, 120]
             n = 0
 
             for col in coluna_header:
-                table.heading(col, text = col.title(), anchor = tk.CENTER)
-                table.column(col, width = size[n], anchor = alignment[n])
+                a_table.heading(col, text = col.title(), anchor = tk.CENTER)
+                a_table.column(col, width = size[n], anchor = alignment[n])
                 
                 n += 1
 
             for item in data:
-                table.insert('', 'end', values = item)
+                a_table.insert('', 'end', values = item)
 
         #---------Variáveis_globais---------#
 
