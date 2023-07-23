@@ -426,12 +426,12 @@ def ivy():
             date = a_e_date.get()
             type_activies = a_e_type.get()
             activies_details = a_e_type_details.get()
-            progress = int(a_e_progress.get())
+            progress = a_e_progress.get()
 
             list_insert = [date, type_activies, activies_details, progress]
 
-            if date == '' or type_activies == '':
-                messagebox.showerror('Erro', 'A data e o tipo de atividade são campos obrigatórios.')
+            if date == '' or type_activies == '' or progress == '':
+                messagebox.showerror('Erro', 'A data, o tipo de atividade e a progressão são campos obrigatórios.')
             else:
                 crud.a_insert_info(list_insert)
                 messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso!')
