@@ -12,7 +12,7 @@ def db_hours():
 
     with con: 
         cur = con.cursor()
-        cur.execute('''CREATE TABLE IF NOT EXISTS horas_trabalho(
+        cur.execute('''CREATE TABLE IF NOT EXISTS horas(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         data DATE,
         horario_entrada TEXT,
@@ -34,5 +34,9 @@ def db_activies():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         data DATE,
         atividade TEXT,
-        progresso TEXT
+        descricao TEXT
+        progresso INT
         )''')
+
+db_hours()
+db_activies()

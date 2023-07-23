@@ -100,7 +100,7 @@ def ivy():
 
             ###---------Acessando_dados---------###
 
-            data = crud.access_info()
+            data = crud.h_access_info()
 
             ###---------Criando_tabela---------###
 
@@ -150,7 +150,7 @@ def ivy():
             if date == '' or entry_time == '' or exit_time == '':
                 messagebox.showerror('Erro', 'A data e os horários são campos obrigatórios')
             else:
-                crud.insert_info(array)
+                crud.h_insert_info(array)
                 messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso!')
 
                 ####---------Exclui_valores---------####
@@ -213,7 +213,7 @@ def ivy():
                     if date == '' or entry_time == '' or exit_time == '':
                         messagebox.showerror('Erro', 'A data e os horários são campos obrigatórios')
                     else:
-                        crud.update_info(array)
+                        crud.h_update_info(array)
                         messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso!')
 
                         #####---------Exclui_valores---------#####
@@ -252,7 +252,7 @@ def ivy():
 
                 ###---------Deleta_dados---------###
 
-                crud.delete_info(value_id)
+                crud.h_delete_info(value_id)
                 messagebox.showinfo('Deletados', 'Os dados foram deletados com sucesso!')
 
                 ###---------Tabela_atualizada---------###
@@ -283,7 +283,7 @@ def ivy():
 
                 ###---------Filtra_data---------###
 
-                filtered_data = crud.select_date(date)
+                filtered_data = crud.h_select_date(date)
                 messagebox.showinfo('Filtrado', f'Foi filtrado as datas entre {filter_entry} até {filter_exit}.')
 
                 ###---------Tabela_atualizada---------###
@@ -432,8 +432,12 @@ def ivy():
     #---------Criando_aba_controle_de_atividades---------#
 
     def activies_management():
+
+        #---------Funções---------#
+
+
     
-    #---------Variáveis_globais---------#
+        #---------Variáveis_globais---------#
 
         global a_left_top
         global a_left_down
@@ -498,7 +502,7 @@ def ivy():
             value_bar_progress = int(a_e_progress.get())
             prog_bar.set(value_bar_progress)
     
-        a_l_progress = tk.Label(a_left_down, text = 'Progressão: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+        a_l_progress = tk.Label(a_left_down, text = 'Progressão (%): ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
         a_l_progress.place(x = 10, y = 230)
         a_e_progress = ttk.Spinbox(a_left_down, values = prog_values, command = update_progressbar, width = 14, background = 'darkblue', foreground = co4)
         a_e_progress.place(x = 155, y = 230)
