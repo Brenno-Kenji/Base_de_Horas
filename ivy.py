@@ -92,7 +92,7 @@ def ivy():
         
         def h_show_table():
 
-            global table # Faz a variável local se tornar local
+            global table # Faz a variável local se tornar global
 
             ###---------Criando_titulos_tabela---------###
 

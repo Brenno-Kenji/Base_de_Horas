@@ -34,7 +34,7 @@ def db_activies():
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         data DATE,
         atividade TEXT,
-        descricao TEXT
+        descricao TEXT,
         progresso INT
         )''')
 
