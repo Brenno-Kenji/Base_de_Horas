@@ -60,8 +60,6 @@ def ivy():
     def hours_management():
 
         #---------Funções---------#
-
-        ##---------Visualizando_tabela_horas---------##
         
         def h_show_table():
 
@@ -391,8 +389,6 @@ def ivy():
     def activies_management():
 
         #---------Funções---------#
-
-        ##---------Visualizando_tabela_atividades---------##
         
         def a_show_table():
 
@@ -425,6 +421,30 @@ def ivy():
 
             for item in data:
                 a_table.insert('', 'end', values = item)
+
+        def a_insert():
+            date = a_e_date.get()
+            type_activies = a_e_type.get()
+            activies_details = a_e_type_details.get()
+            progress = int(a_e_progress.get())
+
+            list_insert = [date, type_activies, activies_details, progress]
+
+            if date == '' or type_activies == '':
+                messagebox.showerror('Erro', 'A data e o tipo de atividade são campos obrigatórios.')
+            else:
+                crud.a_insert_info(list_insert)
+                messagebox.showinfo('Sucesso', 'Os dados foram inseridos com sucesso!')
+            
+            a_e_date.delete(0, 'end')
+            a_e_type.delete(0, 'end')
+            a_e_type_details.delete(0, 'end')
+            a_e_progress.delete(0, 'end')
+
+            for widget in a_right_down.winfo_children():
+                widget.destroy()
+
+            a_show_table()
 
         #---------Variáveis_globais---------#
 
@@ -470,7 +490,7 @@ def ivy():
         
         ##---------Criando_detalhe_da_atividade---------##
 
-        a_l_type_details = tk.Label(a_left_down, text = 'Detalhe da atividade(s): ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+        a_l_type_details = tk.Label(a_left_down, text = 'Detalhe(s) da(s) atividade(s): ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
         a_l_type_details.place(x = 10, y = 130)
         a_e_type_details = tk.Entry(a_left_down, width = 35, justify = 'left', relief = 'solid')
         a_e_type_details.place(x = 10, y = 170)
@@ -499,7 +519,7 @@ def ivy():
         
         ##---------Botão_Adicionar---------##
 
-        a_b_add_activies = tk.Button(a_left_down, text = 'Adicionar', width = 7, font = ('Ivy 8 bold'), background = co11, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_add_activies = tk.Button(a_left_down, command = a_insert,text = 'Adicionar', width = 7, font = ('Ivy 8 bold'), background = co11, fg = co1, relief = 'raised', overrelief = 'ridge')
         a_b_add_activies.place(x = 10, y = 320)
 
         ##---------Botão_Editar---------##

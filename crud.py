@@ -100,7 +100,7 @@ def a_insert_info(i):
 
 def a_access_info():
     
-    array = [['23/07/2023', 'exemplo1', 'exemplo_descrico', 10]]
+    list_data = []
 
     with con_activies:
         cur = con_activies.cursor()
@@ -109,6 +109,6 @@ def a_access_info():
         information = cur.fetchall()
 
         for i in information:
-            array.append(i)
+            list_data.append(i)
 
-        return array
+        return list_data
