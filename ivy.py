@@ -6,7 +6,7 @@ from tkinter import messagebox
 from tkcalendar import Calendar, DateEntry
 import locale
 import crud
-import concurrent.futures
+
 #---------Definindo_localização_pt-br---------#
 
 locale.setlocale(locale.LC_ALL, 'pt_BR.utf8')
@@ -481,15 +481,10 @@ def ivy():
         
         ##---------Criando_detalhe_da_atividade---------##
 
-        type_activities = a_e_type.get()
-
-        if type_activities == list_type[0]:
-
-            a_l_type_details = tk.Label(a_left_down, text = 'Detalhe da atividade: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-            a_l_type_details.place(x = 10, y = 140)
-            #  a_e_type = ttk.Combobox(a_left_down, values = list_type, width = 14, background = 'darkblue', foreground = co4)
-            # a_e_type.set(list_type[0])
-            # a_e_type.place(x = 160, y = 140)
+        a_l_type_details = tk.Label(a_left_down, text = 'Detalhe da atividade(s): ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
+        a_l_type_details.place(x = 10, y = 130)
+        a_e_type_details = tk.Entry(a_left_down, width = 35, justify = 'left', relief = 'solid')
+        a_e_type_details.place(x = 10, y = 170)
 
 
         ##---------Criando_barra_de_progressão---------##
@@ -500,16 +495,16 @@ def ivy():
         prog_values =[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
         
         def update_progressbar():
-            value = int(a_e_progress.get())
-            prog_bar.set(value)
+            value_bar_progress = int(a_e_progress.get())
+            prog_bar.set(value_bar_progress)
     
         a_l_progress = tk.Label(a_left_down, text = 'Progressão: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-        a_l_progress.place(x = 10, y = 200)
+        a_l_progress.place(x = 10, y = 230)
         a_e_progress = ttk.Spinbox(a_left_down, values = prog_values, command = update_progressbar, width = 14, background = 'darkblue', foreground = co4)
-        a_e_progress.place(x = 155, y = 200)
+        a_e_progress.place(x = 155, y = 230)
 
         a_bar_progress = ttk.Progressbar(a_left_down, variable = prog_bar, maximum = 100, length = 280)
-        a_bar_progress.place(x = 10, y = 260)
+        a_bar_progress.place(x = 10, y = 290)
 
         #---------Criando_Botões---------#
         
@@ -540,10 +535,4 @@ def ivy():
 #---------Rodando_o_sistema---------#
 
 if __name__ == '__main__':
-    
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        
-        h_m = executor.submit(ivy().hours_management)
-        a_m = executor.submit(ivy().activies.management)
-
     ivy()
