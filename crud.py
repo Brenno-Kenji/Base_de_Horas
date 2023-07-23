@@ -88,14 +88,27 @@ def a_insert_info(i):
     with con_activies:
         cur = con_activies.cursor()
         query = '''INSERT INTO atividades (
-        id,
         data,
         atividade,
         descricao,
         progresso)
         VALUES (
-        ?, ?, ?, ?, ?
+        ?, ?, ?, ?
         )'''
 
         cur.execute(query, i)
 
+def a_access_info():
+    
+    array = ['23/07/2023', 'exemplo1', 'exemplo_descrico', 10]
+
+    with con_activies:
+        cur = con_activies.cursor()
+        query = '''SELECT data, atividade, descricao, progresso FROM atividades'''
+        cur.execute(query)
+        information = cur.fetchall()
+
+        for i in information:
+            array.append(i)
+
+        return array

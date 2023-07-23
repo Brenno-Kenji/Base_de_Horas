@@ -435,8 +435,38 @@ def ivy():
 
         #---------Funções---------#
 
+        ##---------Visualizando_tabela_atividades---------##
+        
+        def a_show_table():
 
-    
+            coluna_header = ['Data', 'Atividade', 'Descriçao da Atv.', 'Progresso (%)']
+
+            data = crud.a_access_info()
+
+            table = ttk.Treeview(a_right_down, selectmode = "extended", columns = coluna_header, show = "headings")
+            bar_v = ttk.Scrollbar(a_right_down, orient = "vertical", command = table.yview)
+            bar_h = ttk.Scrollbar(a_right_down, orient = "horizontal", command = table.xview)   
+
+            table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
+            table.grid(column = 0, row = 0, sticky = 'nsew')
+            bar_v.grid(column = 1, row = 0, sticky = 'ns')
+            bar_h.grid(column = 0, row = 1, sticky = 'ew')
+
+            a_right_down.grid_rowconfigure(0, weight = 12)
+
+            alignment = ["center", "nw", "nw", "center"]
+            size = [30, 120, 165, 165, 200]
+            n = 0
+
+            for col in coluna_header:
+                table.heading(col, text = col.title(), anchor = tk.CENTER)
+                table.column(col, width = size[n], anchor = alignment[n])
+                
+                n += 1
+
+            for item in data:
+                table.insert('', 'end', values = item)
+
         #---------Variáveis_globais---------#
 
         global a_left_top
@@ -526,6 +556,8 @@ def ivy():
 
         a_b_delete = tk.Button(a_left_down, text = 'Excluir', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
         a_b_delete.place(x = 210, y = 320)
+
+        a_show_table()
         
     #---------Chamando_funções---------#
 
