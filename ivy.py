@@ -149,6 +149,8 @@ def ivy():
                 ###---------Retorna_ID---------###
 
                 value_id = table_list[0]
+
+                messagebox.showinfo('Atulizar', f'Atualize os horários do dia {table_list[1]}.')
                 
                 ###---------Deleta_valores---------###
 
@@ -198,6 +200,8 @@ def ivy():
 
                     for widget in h_right_down.winfo_children():
                         widget.destroy()
+
+                    b_confirm.destroy()
 
                     h_show_table()
 
@@ -362,7 +366,7 @@ def ivy():
 
         ##---------Criando_botão_"Atualizar"---------##
 
-        h_b_update = tk.Button(h_left_down, command = h_update, text = 'Atualizar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
+        h_b_update = tk.Button(h_left_down, command = h_update, text = 'Editar', width = 7, font = ('Ivy 8 bold'), background = co10, fg = co1, relief = 'raised', overrelief = 'ridge')
         h_b_update.place(x = 115, y = 310)
 
         ##---------Criando_botão_"Deletar"---------##
@@ -394,7 +398,7 @@ def ivy():
 
             global a_table
             
-            coluna_header = ['Data', 'Atividade', 'Descriçao', 'Progresso (%)']
+            coluna_header = ['ID', 'Data', 'Atividade', 'Descriçao', 'Progresso (%)']
 
             data = crud.a_access_info()
 
@@ -409,8 +413,8 @@ def ivy():
 
             a_right_down.grid_rowconfigure(0, weight = 12)
 
-            alignment = ["center", "nw", "nw", "center"]
-            size = [120, 140, 290, 120]
+            alignment = ["center", "center", "nw", "nw", "center"]
+            size = [30, 120, 140, 270, 110]
             n = 0
 
             for col in coluna_header:
@@ -423,6 +427,7 @@ def ivy():
                 a_table.insert('', 'end', values = item)
 
         def a_insert():
+
             date = a_e_date.get()
             type_activies = a_e_type.get()
             activies_details = a_e_type_details.get()
@@ -445,6 +450,59 @@ def ivy():
                 widget.destroy()
 
             a_show_table()
+
+        def a_update():
+            try:
+                table_data = a_table.focus()
+                table_dictionary = a_table.item(table_data)
+                table_list = table_dictionary['values']
+
+                value_id = table_list[0]
+
+                messagebox.showinfo('Atulizar', f'Atualize os horários do dia {table_list[1]}.')
+
+
+                a_e_date.delete(0, 'end')
+                a_e_type.delete(0, 'end')
+                a_e_type_details.delete(0, 'end')
+                a_e_progress.delete(0, 'end')
+
+                a_e_date.insert(0, table_list[1])
+                a_e_type.insert(0, table_list[2])
+                a_e_type_details.insert(0, table_list[3])
+                a_e_progress.insert(0, table_list[4])
+
+                def update_data():
+                    date = a_e_date.get()
+                    type_activies = a_e_type.get()
+                    activies_details = a_e_type_details.get()
+                    progress = a_e_progress.get()
+
+                    list_insert = [date, type_activies, activies_details, progress, value_id]
+
+                    if date == '' or type_activies == '' or progress == '':
+                        messagebox.showerror('Erro', 'A data, o tipo de atividade e a progressão são campos obrigatórios.')
+                    else:
+                        crud.a_update_info(list_insert)
+                        messagebox.showinfo('Sucesso', 'Os dados foram Atualizados com sucesso!')
+                    
+                    a_e_date.delete(0, 'end')
+                    a_e_type.delete(0, 'end')
+                    a_e_type_details.delete(0, 'end')
+                    a_e_progress.delete(0, 'end')
+
+                    b_confirm.destroy()
+                    
+                    for widget in a_right_down.winfo_children():
+                        widget.destroy()
+
+                    a_show_table()
+
+                b_confirm = tk.Button(a_left_down, command = update_data, text = 'Confirmar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
+                b_confirm.place(x = 115, y = 350)
+
+            except IndexError:
+                messagebox.showerror('Erro', 'Seleciona um dos dados na tabela')
 
         #---------Variáveis_globais---------#
 
@@ -495,7 +553,6 @@ def ivy():
         a_e_type_details = tk.Entry(a_left_down, width = 35, justify = 'left', relief = 'solid')
         a_e_type_details.place(x = 10, y = 170)
 
-
         ##---------Criando_barra_de_progressão---------##
 
         prog_bar = tk.DoubleVar()
@@ -513,24 +570,24 @@ def ivy():
         a_e_progress.place(x = 155, y = 230)
 
         a_bar_progress = ttk.Progressbar(a_left_down, variable = prog_bar, maximum = 100, length = 280)
-        a_bar_progress.place(x = 10, y = 290)
+        a_bar_progress.place(x = 10, y = 275)
 
         #---------Criando_Botões---------#
         
         ##---------Botão_Adicionar---------##
 
         a_b_add_activies = tk.Button(a_left_down, command = a_insert,text = 'Adicionar', width = 7, font = ('Ivy 8 bold'), background = co11, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_add_activies.place(x = 10, y = 320)
+        a_b_add_activies.place(x = 15, y = 310)
 
         ##---------Botão_Editar---------##
 
-        a_b_edit = tk.Button(a_left_down, text = 'Editar', width = 7, font = ('Ivy 8 bold'), background = co10, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_edit.place(x = 110, y = 320)
+        a_b_edit = tk.Button(a_left_down, text = 'Editar', command = a_update, width = 7, font = ('Ivy 8 bold'), background = co10, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_edit.place(x = 115, y = 310)
 
         ##---------Botão_Excluir---------##
 
         a_b_delete = tk.Button(a_left_down, text = 'Excluir', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_delete.place(x = 210, y = 320)
+        a_b_delete.place(x = 215, y = 310)
 
         a_show_table()
         

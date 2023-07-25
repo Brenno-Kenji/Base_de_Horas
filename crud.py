@@ -104,7 +104,7 @@ def a_access_info():
 
     with con_activies:
         cur = con_activies.cursor()
-        query = '''SELECT data, atividade, descricao, progresso FROM atividades'''
+        query = '''SELECT * FROM atividades'''
         cur.execute(query)
         information = cur.fetchall()
 
@@ -112,3 +112,15 @@ def a_access_info():
             list_data.append(i)
 
         return list_data
+
+def a_update_info(i):
+    with con_activies:
+        cur = con_activies.cursor()
+        query = '''UPDATE atividades SET
+        data = ?,
+        atividade = ?,
+        descricao = ?,
+        progresso = ? 
+        WHERE id = ?'''
+
+        cur.execute(query, i)
