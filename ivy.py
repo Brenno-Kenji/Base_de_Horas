@@ -149,6 +149,8 @@ def ivy():
                 ###---------Retorna_ID---------###
 
                 value_id = table_list[0]
+
+                messagebox.showinfo('Atulizar', f'Atualize os horários do dia {table_list[1]}.')
                 
                 ###---------Deleta_valores---------###
 
@@ -198,6 +200,8 @@ def ivy():
 
                     for widget in h_right_down.winfo_children():
                         widget.destroy()
+
+                    b_confirm.destroy()
 
                     h_show_table()
 
@@ -362,7 +366,7 @@ def ivy():
 
         ##---------Criando_botão_"Atualizar"---------##
 
-        h_b_update = tk.Button(h_left_down, command = h_update, text = 'Atualizar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
+        h_b_update = tk.Button(h_left_down, command = h_update, text = 'Editar', width = 7, font = ('Ivy 8 bold'), background = co10, fg = co1, relief = 'raised', overrelief = 'ridge')
         h_b_update.place(x = 115, y = 310)
 
         ##---------Criando_botão_"Deletar"---------##
@@ -372,13 +376,13 @@ def ivy():
 
         ##---------Criando_botão_"Buscar"---------##
 
-        h_b_search = tk.Button(h_right_up, text = 'Buscar', command = h_filter_date, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+        h_b_search = tk.Button(h_right_up, text = 'Buscar', command = h_filter_date, width = 7, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
         h_b_search.place(x = 420, y = 20)
 
         ##---------Criando_botão_"Retirar Filtro"---------##
 
-        h_b_search = tk.Button(h_right_up, text = 'Retirar Filtro', command = h_show_table, width = 10, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
-        h_b_search.place(x = 520, y = 20)
+        h_b_search_remove = tk.Button(h_right_up, text = 'Retirar Filtro', command = h_show_table, width = 10, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+        h_b_search_remove.place(x = 520, y = 20)
 
         #---------Visualizar_tabela---------#
 
@@ -394,7 +398,7 @@ def ivy():
 
             global a_table
             
-            coluna_header = ['Data', 'Atividade', 'Descriçao', 'Progresso (%)']
+            coluna_header = ['ID', 'Data', 'Atividade', 'Descriçao', 'Progresso (%)']
 
             data = crud.a_access_info()
 
@@ -409,8 +413,8 @@ def ivy():
 
             a_right_down.grid_rowconfigure(0, weight = 12)
 
-            alignment = ["center", "nw", "nw", "center"]
-            size = [120, 140, 290, 120]
+            alignment = ["center", "center", "nw", "nw", "center"]
+            size = [30, 120, 140, 270, 110]
             n = 0
 
             for col in coluna_header:
@@ -423,6 +427,7 @@ def ivy():
                 a_table.insert('', 'end', values = item)
 
         def a_insert():
+
             date = a_e_date.get()
             type_activies = a_e_type.get()
             activies_details = a_e_type_details.get()
@@ -446,6 +451,121 @@ def ivy():
 
             a_show_table()
 
+        def a_update():
+            try:
+                table_data = a_table.focus()
+                table_dictionary = a_table.item(table_data)
+                table_list = table_dictionary['values']
+
+                value_id = table_list[0]
+
+                messagebox.showinfo('Atulizar', f'Atualize os dados da atividade {table_list[2]} do dia {table_list[1]}.')
+
+                a_e_date.delete(0, 'end')
+                a_e_type.delete(0, 'end')
+                a_e_type_details.delete(0, 'end')
+                a_e_progress.delete(0, 'end')
+
+                a_e_date.insert(0, table_list[1])
+                a_e_type.insert(0, table_list[2])
+                a_e_type_details.insert(0, table_list[3])
+                a_e_progress.insert(0, table_list[4])
+
+                def update_data():
+                    date = a_e_date.get()
+                    type_activies = a_e_type.get()
+                    activies_details = a_e_type_details.get()
+                    progress = a_e_progress.get()
+
+                    list_insert = [date, type_activies, activies_details, progress, value_id]
+
+                    if date == '' or type_activies == '' or progress == '':
+                        messagebox.showerror('Erro', 'A data, o tipo de atividade e a progressão são campos obrigatórios.')
+                    else:
+                        crud.a_update_info(list_insert)
+                        messagebox.showinfo('Sucesso', 'Os dados foram atualizados com sucesso!')
+                    
+                    a_e_date.delete(0, 'end')
+                    a_e_type.delete(0, 'end')
+                    a_e_type_details.delete(0, 'end')
+                    a_e_progress.delete(0, 'end')
+
+                    b_confirm.destroy()
+                    
+                    for widget in a_right_down.winfo_children():
+                        widget.destroy()
+
+                    a_show_table()
+
+                b_confirm = tk.Button(a_left_down, command = update_data, text = 'Confirmar', width = 7, font = ('Ivy 8 bold'), background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
+                b_confirm.place(x = 115, y = 350)
+
+            except IndexError:
+                messagebox.showerror('Erro', 'Seleciona um dos dados na tabela')
+
+        def a_delete():
+            try:
+                table_data = a_table.focus()
+                table_dictionary = a_table.item(table_data)
+                table_list = table_dictionary['values']
+
+                value_id = [table_list[0]]
+
+                crud.a_delete_info(value_id)
+                messagebox.showinfo('Deletados', 'Os dados foram deletados com sucesso!')
+
+                for widget in a_right_down.winfo_children():
+                    widget.destroy()
+
+                a_show_table()
+
+            except IndexError:
+                messagebox.showerror('Erro', 'Seleciona um dos dados na tabela')
+
+        def a_filter():
+            try:
+                for widget in a_right_down.winfo_children():
+                    widget.destroy()
+
+                filter_activies = a_e_filter_activies.get()
+                filter_date = a_e_filter_date.get()
+
+                values = [filter_activies, filter_date]
+
+                filter = crud.a_select_info(values)
+                messagebox.showinfo('Filtrado', f'Foi filtrado os dados da atividade {filter_activies} do dia {filter_date}.')
+
+                coluna_header = ['ID', 'Data', 'Atividade', 'Descriçao', 'Progresso (%)']
+
+                data = crud.a_access_info()
+
+                a_table = ttk.Treeview(a_right_down, selectmode = "extended", columns = coluna_header, show = "headings")
+                bar_v = ttk.Scrollbar(a_right_down, orient = "vertical", command = a_table.yview)
+                bar_h = ttk.Scrollbar(a_right_down, orient = "horizontal", command = a_table.xview)   
+
+                a_table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
+                a_table.grid(column = 0, row = 0, sticky = 'nsew')
+                bar_v.grid(column = 1, row = 0, sticky = 'ns')
+                bar_h.grid(column = 0, row = 1, sticky = 'ew')
+
+                a_right_down.grid_rowconfigure(0, weight = 12)
+
+                alignment = ["center", "center", "nw", "nw", "center"]
+                size = [30, 120, 140, 270, 110]
+                n = 0
+
+                for col in coluna_header:
+                    a_table.heading(col, text = col.title(), anchor = tk.CENTER)
+                    a_table.column(col, width = size[n], anchor = alignment[n])
+                    
+                    n += 1
+
+                for item in filter:
+                    a_table.insert('', 'end', values = item)
+        
+            except IndexError:
+                messagebox.showerror('Erro', 'Seleciona uma data para realizar a filtragem')
+            
         #---------Variáveis_globais---------#
 
         global a_table
@@ -495,7 +615,6 @@ def ivy():
         a_e_type_details = tk.Entry(a_left_down, width = 35, justify = 'left', relief = 'solid')
         a_e_type_details.place(x = 10, y = 170)
 
-
         ##---------Criando_barra_de_progressão---------##
 
         prog_bar = tk.DoubleVar()
@@ -513,24 +632,44 @@ def ivy():
         a_e_progress.place(x = 155, y = 230)
 
         a_bar_progress = ttk.Progressbar(a_left_down, variable = prog_bar, maximum = 100, length = 280)
-        a_bar_progress.place(x = 10, y = 290)
+        a_bar_progress.place(x = 10, y = 275)
+
+        ##---------Criando_campo_filtro---------##
+
+        a_l_filter_activies = tk.Label(a_right_up, text = 'Filtrar atividade:', anchor = tk.NW, font = ('Ivy 8 bold'), background = co1, fg = co4, relief = 'flat')
+        a_l_filter_activies.place(x = 10, y = 20)
+        a_e_filter_activies = ttk.Combobox(a_right_up, values = list_type, width = 14, background = 'darkblue', foreground = co4)
+        a_e_filter_activies.place(x = 130, y = 20)
+
+        a_l_filter_date = tk.Label(a_right_up, text = 'no dia:', anchor = tk.NW, font = ('Ivy 8 bold'), background = co1, fg = co4, relief = 'flat')
+        a_l_filter_date.place(x = 268, y = 20) 
+        a_e_filter_date = DateEntry(a_right_up, width = 12, justify = 'left', relief = 'solid', locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
+        a_e_filter_date.place(x = 325, y = 20) 
 
         #---------Criando_Botões---------#
         
         ##---------Botão_Adicionar---------##
 
         a_b_add_activies = tk.Button(a_left_down, command = a_insert,text = 'Adicionar', width = 7, font = ('Ivy 8 bold'), background = co11, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_add_activies.place(x = 10, y = 320)
+        a_b_add_activies.place(x = 15, y = 310)
 
         ##---------Botão_Editar---------##
 
-        a_b_edit = tk.Button(a_left_down, text = 'Editar', width = 7, font = ('Ivy 8 bold'), background = co10, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_edit.place(x = 110, y = 320)
+        a_b_edit = tk.Button(a_left_down, text = 'Editar', command = a_update, width = 7, font = ('Ivy 8 bold'), background = co10, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_edit.place(x = 115, y = 310)
 
         ##---------Botão_Excluir---------##
 
-        a_b_delete = tk.Button(a_left_down, text = 'Excluir', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_delete.place(x = 210, y = 320)
+        a_b_delete = tk.Button(a_left_down, text = 'Excluir', command = a_delete, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_delete.place(x = 215, y = 310)
+
+        ##---------Botões_filtrar---------##
+
+        a_b_search = tk.Button(a_right_up, text = 'Buscar', command = a_filter,width = 7, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_search.place(x = 470, y = 20)
+
+        a_b_search_remove = tk.Button(a_right_up, text = 'Retirar Filtro', command = a_show_table,width = 10, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_search_remove.place(x = 560, y = 20)        
 
         a_show_table()
         
