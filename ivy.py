@@ -376,13 +376,13 @@ def ivy():
 
         ##---------Criando_botão_"Buscar"---------##
 
-        h_b_search = tk.Button(h_right_up, text = 'Buscar', command = h_filter_date, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+        h_b_search = tk.Button(h_right_up, text = 'Buscar', command = h_filter_date, width = 7, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
         h_b_search.place(x = 420, y = 20)
 
         ##---------Criando_botão_"Retirar Filtro"---------##
 
-        h_b_search = tk.Button(h_right_up, text = 'Retirar Filtro', command = h_show_table, width = 10, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
-        h_b_search.place(x = 520, y = 20)
+        h_b_search_remove = tk.Button(h_right_up, text = 'Retirar Filtro', command = h_show_table, width = 10, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+        h_b_search_remove.place(x = 520, y = 20)
 
         #---------Visualizar_tabela---------#
 
@@ -459,8 +459,7 @@ def ivy():
 
                 value_id = table_list[0]
 
-                messagebox.showinfo('Atulizar', f'Atualize os horários do dia {table_list[1]}.')
-
+                messagebox.showinfo('Atulizar', f'Atualize os dados da atividade {table_list[2]} do dia {table_list[1]}.')
 
                 a_e_date.delete(0, 'end')
                 a_e_type.delete(0, 'end')
@@ -484,7 +483,7 @@ def ivy():
                         messagebox.showerror('Erro', 'A data, o tipo de atividade e a progressão são campos obrigatórios.')
                     else:
                         crud.a_update_info(list_insert)
-                        messagebox.showinfo('Sucesso', 'Os dados foram Atualizados com sucesso!')
+                        messagebox.showinfo('Sucesso', 'Os dados foram atualizados com sucesso!')
                     
                     a_e_date.delete(0, 'end')
                     a_e_type.delete(0, 'end')
@@ -504,6 +503,69 @@ def ivy():
             except IndexError:
                 messagebox.showerror('Erro', 'Seleciona um dos dados na tabela')
 
+        def a_delete():
+            try:
+                table_data = a_table.focus()
+                table_dictionary = a_table.item(table_data)
+                table_list = table_dictionary['values']
+
+                value_id = [table_list[0]]
+
+                crud.a_delete_info(value_id)
+                messagebox.showinfo('Deletados', 'Os dados foram deletados com sucesso!')
+
+                for widget in a_right_down.winfo_children():
+                    widget.destroy()
+
+                a_show_table()
+
+            except IndexError:
+                messagebox.showerror('Erro', 'Seleciona um dos dados na tabela')
+
+        def a_filter():
+            try:
+                for widget in a_right_down.winfo_children():
+                    widget.destroy()
+
+                filter_activies = a_e_filter_activies.get()
+                filter_date = a_e_filter_date.get()
+
+                values = [filter_activies, filter_date]
+
+                filter = crud.a_select_info(values)
+                messagebox.showinfo('Filtrado', f'Foi filtrado os dados da atividade {filter_activies} do dia {filter_date}.')
+
+                coluna_header = ['ID', 'Data', 'Atividade', 'Descriçao', 'Progresso (%)']
+
+                data = crud.a_access_info()
+
+                a_table = ttk.Treeview(a_right_down, selectmode = "extended", columns = coluna_header, show = "headings")
+                bar_v = ttk.Scrollbar(a_right_down, orient = "vertical", command = a_table.yview)
+                bar_h = ttk.Scrollbar(a_right_down, orient = "horizontal", command = a_table.xview)   
+
+                a_table.configure(yscrollcommand = bar_v.set, xscrollcommand = bar_h.set)
+                a_table.grid(column = 0, row = 0, sticky = 'nsew')
+                bar_v.grid(column = 1, row = 0, sticky = 'ns')
+                bar_h.grid(column = 0, row = 1, sticky = 'ew')
+
+                a_right_down.grid_rowconfigure(0, weight = 12)
+
+                alignment = ["center", "center", "nw", "nw", "center"]
+                size = [30, 120, 140, 270, 110]
+                n = 0
+
+                for col in coluna_header:
+                    a_table.heading(col, text = col.title(), anchor = tk.CENTER)
+                    a_table.column(col, width = size[n], anchor = alignment[n])
+                    
+                    n += 1
+
+                for item in data:
+                    a_table.insert('', 'end', values = item)
+        
+            except IndexError:
+                messagebox.showerror('Erro', 'Seleciona uma data para realizar a filtragem')
+            
         #---------Variáveis_globais---------#
 
         global a_table
@@ -572,6 +634,18 @@ def ivy():
         a_bar_progress = ttk.Progressbar(a_left_down, variable = prog_bar, maximum = 100, length = 280)
         a_bar_progress.place(x = 10, y = 275)
 
+        ##---------Criando_campo_filtro---------##
+
+        a_l_filter_activies = tk.Label(a_right_up, text = 'Filtrar atividade:', anchor = tk.NW, font = ('Ivy 8 bold'), background = co1, fg = co4, relief = 'flat')
+        a_l_filter_activies.place(x = 10, y = 20)
+        a_e_filter_activies = ttk.Combobox(a_right_up, values = list_type, width = 14, background = 'darkblue', foreground = co4)
+        a_e_filter_activies.place(x = 130, y = 20)
+
+        a_l_filter_date = tk.Label(a_right_up, text = 'no dia:', anchor = tk.NW, font = ('Ivy 8 bold'), background = co1, fg = co4, relief = 'flat')
+        a_l_filter_date.place(x = 268, y = 20) 
+        a_e_filter_date = DateEntry(a_right_up, width = 12, justify = 'left', relief = 'solid', locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
+        a_e_filter_date.place(x = 325, y = 20) 
+
         #---------Criando_Botões---------#
         
         ##---------Botão_Adicionar---------##
@@ -586,8 +660,16 @@ def ivy():
 
         ##---------Botão_Excluir---------##
 
-        a_b_delete = tk.Button(a_left_down, text = 'Excluir', width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_delete = tk.Button(a_left_down, text = 'Excluir', command = a_delete, width = 7, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
         a_b_delete.place(x = 215, y = 310)
+
+        ##---------Botões_filtrar---------##
+
+        a_b_search = tk.Button(a_right_up, text = 'Buscar', command = a_filter,width = 7, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_search.place(x = 470, y = 20)
+
+        a_b_search_remove = tk.Button(a_right_up, text = 'Retirar Filtro', command = a_show_table,width = 10, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_search_remove.place(x = 560, y = 20)        
 
         a_show_table()
         

@@ -124,3 +124,26 @@ def a_update_info(i):
         WHERE id = ?'''
 
         cur.execute(query, i)
+
+def a_delete_info(i):
+    with con_activies:
+        cur = con_activies.cursor()
+        query = '''DELETE 
+        FROM atividades 
+        WHERE id = ?'''
+
+        cur.execute(query, i)
+
+def a_select_info(i):
+    array = []
+
+    with con_activies:
+        cur = con_activies.cursor()
+        query = '''SELECT * FROM atividades WHERE atividade = ? AND data = ?'''
+        cur.execute(query, i)
+        information = cur.fetchall()
+
+        for i in information:
+            array.append(i)
+
+        return array
