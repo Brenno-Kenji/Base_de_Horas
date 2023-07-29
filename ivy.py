@@ -560,7 +560,7 @@ def ivy():
                     
                     n += 1
 
-                for item in data:
+                for item in filter:
                     a_table.insert('', 'end', values = item)
         
             except IndexError:

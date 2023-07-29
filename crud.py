@@ -135,15 +135,16 @@ def a_delete_info(i):
         cur.execute(query, i)
 
 def a_select_info(i):
-    array = []
+    
+    values = []
 
     with con_activies:
         cur = con_activies.cursor()
-        query = '''SELECT * FROM atividades WHERE atividade = ? AND data = ?'''
+        query = '''SELECT * FROM atividades WHERE atividade == ? AND data == ?'''
         cur.execute(query, i)
         information = cur.fetchall()
 
         for i in information:
-            array.append(i)
+            values.append(i)
 
-        return array
+        return values
