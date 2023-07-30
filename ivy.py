@@ -528,12 +528,11 @@ def ivy():
                     widget.destroy()
 
                 filter_activies = a_e_filter_activies.get()
-                filter_date = a_e_filter_date.get()
 
-                values = [filter_activies, filter_date]
+                values = [filter_activies]
 
                 filter = crud.a_select_info(values)
-                messagebox.showinfo('Filtrado', f'Foi filtrado os dados da atividade {filter_activies} do dia {filter_date}.')
+                messagebox.showinfo('Filtrado', f'Foi filtrado os dados da atividade {filter_activies}.')
 
                 coluna_header = ['ID', 'Data', 'Atividade', 'Descriçao', 'Progresso (%)']
 
@@ -636,15 +635,10 @@ def ivy():
 
         ##---------Criando_campo_filtro---------##
 
-        a_l_filter_activies = tk.Label(a_right_up, text = 'Filtrar atividade:', anchor = tk.NW, font = ('Ivy 8 bold'), background = co1, fg = co4, relief = 'flat')
+        a_l_filter_activies = tk.Label(a_right_up, text = 'Filtrar atividade:', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
         a_l_filter_activies.place(x = 10, y = 20)
         a_e_filter_activies = ttk.Combobox(a_right_up, values = list_type, width = 14, background = 'darkblue', foreground = co4)
-        a_e_filter_activies.place(x = 130, y = 20)
-
-        a_l_filter_date = tk.Label(a_right_up, text = 'no dia:', anchor = tk.NW, font = ('Ivy 8 bold'), background = co1, fg = co4, relief = 'flat')
-        a_l_filter_date.place(x = 268, y = 20) 
-        a_e_filter_date = DateEntry(a_right_up, width = 12, justify = 'left', relief = 'solid', locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
-        a_e_filter_date.place(x = 325, y = 20) 
+        a_e_filter_activies.place(x = 135, y = 20)
 
         #---------Criando_Botões---------#
         
@@ -666,10 +660,10 @@ def ivy():
         ##---------Botões_filtrar---------##
 
         a_b_search = tk.Button(a_right_up, text = 'Buscar', command = a_filter,width = 7, font = ('Ivy 8 bold'), background = co6, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_search.place(x = 470, y = 20)
+        a_b_search.place(x = 280, y = 20)
 
-        a_b_search_remove = tk.Button(a_right_up, text = 'Retirar Filtro', command = a_show_table,width = 10, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
-        a_b_search_remove.place(x = 560, y = 20)        
+        a_b_search_remove = tk.Button(a_right_up, text = 'Retirar Filtro', command = a_show_table, width = 10, font = ('Ivy 8 bold'), background = co7, fg = co1, relief = 'raised', overrelief = 'ridge')
+        a_b_search_remove.place(x = 370, y = 20)        
 
         a_show_table()
         

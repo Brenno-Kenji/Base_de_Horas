@@ -140,7 +140,7 @@ def a_select_info(i):
 
     with con_activies:
         cur = con_activies.cursor()
-        query = '''SELECT * FROM atividades WHERE atividade == ? AND data == ?'''
+        query = '''SELECT * FROM atividades WHERE atividade == ?'''
         cur.execute(query, i)
         information = cur.fetchall()
 
