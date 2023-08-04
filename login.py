@@ -57,7 +57,7 @@ def login():
         f_title = tk.Frame(login, width = 400, height = 74, relief = 'flat')
         f_title.grid(row = 0, column = 0)
 
-        l_title = tk.Label(f_title, text = 'Área de Login', font = 'Ivy 12 bold italic', fg = co4, relief = 'flat')
+        l_title = tk.Label(f_title, text = 'Área de Login', font = 'Ivy 14 bold italic', fg = co4, relief = 'flat')
         l_title.place(relx = 0.5, rely = 0.5, anchor = tk.CENTER)        
 
         ##---------Campo_"E-mail"---------##
@@ -65,29 +65,30 @@ def login():
         f_email = tk.Frame(login, width = 400, height = 159, relief = 'flat')
         f_email.grid(row = 1, column = 0)
 
-        l_email = tk.Label(f_email, text = 'Área de E-mail', font = 'Ivy 12 bold italic', fg = co4, relief = 'flat')
-        l_email.place(relx = 0.5, rely = 0.5, anchor = tk.CENTER)   
+        l_email = tk.Label(f_email, text = 'E-mail', font = 'Ivy 12 bold', fg = co4, relief = 'flat')
+        l_email.place(relx = 0.5, rely = 0.3, anchor = tk.CENTER)   
+        e_email = tk.Entry(f_email, width = 40, justify = 'center', relief = 'solid')
+        e_email.place(relx = 0.5, rely = 0.7, anchor = tk.CENTER)   
         
         ##---------Campo_"Senha"---------##
         
         f_password = tk.Frame(login, width = 400, height = 158, relief = 'flat')
         f_password.grid(row = 2, column = 0)
 
-        l_password = tk.Label(f_password, text = 'Área de Senha', font = 'Ivy 12 bold italic', fg = co4, relief = 'flat')
-        l_password.place(relx = 0.5, rely = 0.5, anchor = tk.CENTER)
+        password = tk.StringVar()
+
+        l_password = tk.Label(f_password, text = 'Senha', font = 'Ivy 12 bold', fg = co4, relief = 'flat')
+        l_password.place(relx = 0.5, rely = 0.2, anchor = tk.CENTER)
+        e_password = tk.Entry(f_password, show = '*', textvariable = password, width = 40, justify = 'center', relief = 'solid')
+        e_password.place(relx = 0.5, rely = 0.6, anchor = tk.CENTER)   
 
         ##---------Botão_"Login"---------##
    
         f_b_login = tk.Frame(login, width = 400, height = 74, relief = 'flat')
         f_b_login.grid(row = 3, column = 0)
 
-        l_b_login = tk.Label(f_b_login, text = 'Área do botão', font = 'Ivy 12 bold italic', fg = co4, relief = 'flat')
+        l_b_login = tk.Button(f_b_login, text = 'Login', font = 'Ivy 10 bold', width = 7,background = co2, fg = co1, relief = 'raised', overrelief = 'ridge')
         l_b_login.place(relx = 0.5, rely = 0.5, anchor = tk.CENTER)
-
-        # h_l_date = tk.Label(h_left_down, text = 'Data do expediente: ', anchor = tk.NW, font = ('Ivy 9 bold'), background = co1, fg = co4, relief = 'flat')
-        # h_l_date.place(x = 10, y = 40)
-        # h_e_date = DateEntry(h_left_down, width = 12, background = 'darkblue', foreground = 'white', borderwidth = 2, locale='pt_BR.utf8', data_patter = 'dd/mm/yyyy')
-        # h_e_date.place(x = 160, y = 40)
 
     #---------Area_de_cadastro---------#
 
